@@ -1,0 +1,13 @@
+.img-container {
+  height: 200px;
+  overflow: hidden;
+  border-radius: 0.37rem;
+}
+.img-fit {
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.img-fit:hover {
+  opacity: 0.8;
+}

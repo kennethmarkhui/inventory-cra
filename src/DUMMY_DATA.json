@@ -1,0 +1,82 @@
+[
+  {
+    "itemId": "1",
+    "itemStorage": 5.1,
+    "imgUrl": "https://drive.google.com/uc?id=1FnwxjDoplCgrBEPeFROzE1AjUDiBGwdj",
+    "size": {
+      "in": {
+        "len": 999,
+        "wid": 999
+      },
+      "out": {
+        "len": 999,
+        "wid": 999
+      }
+    },
+    "name": {
+      "en": "Paper Joss",
+      "ch": null
+    },
+    "category": {
+      "en": "Display Art",
+      "ch": null
+    },
+    "location": {
+      "country": {
+        "en": "Taiwan",
+        "ch": null
+      },
+      "city": {
+        "en": null,
+        "ch": null
+      }
+    },
+    "period": {
+      "en": "Contemporary Work",
+      "ch": null
+    },
+    "source": null,
+    "dateCreated": null,
+    "dateModified": null
+  },
+  {
+    "itemId": "2",
+    "itemStorage": 5.1,
+    "imgUrl": "https://drive.google.com/uc?id=1CgSc-jlro4JgzYSO591_MYkEPQuqDAmI",
+    "size": {
+      "in": {
+        "len": 999,
+        "wid": 999
+      },
+      "out": {
+        "len": 999,
+        "wid": 999
+      }
+    },
+    "name": {
+      "en": "Deities of Happiness, Promotion and Longevity",
+      "ch": null
+    },
+    "category": {
+      "en": "Display Art",
+      "ch": null
+    },
+    "location": {
+      "country": {
+        "en": "Taiwan",
+        "ch": null
+      },
+      "city": {
+        "en": null,
+        "ch": null
+      }
+    },
+    "period": {
+      "en": "Late Qing",
+      "ch": null
+    },
+    "source": null,
+    "dateCreated": null,
+    "dateModified": null
+  }
+]
