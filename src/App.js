@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -20,24 +20,20 @@ import './App.css';
 library.add(faPen, faTimes, faPlus, faAngleDoubleLeft, faAngleDoubleRight);
 
 const App = (props) => {
-  const [appState, setAppState] = useState({ route: null });
-
-  const appStateHandler = (newRoute) => {
-    setAppState({ route: newRoute });
-    console.log(appState);
-  };
+  // const [routeState, setRouteState] = useState('/');
 
   return (
     <BrowserRouter>
       <Navigation />
       <div className="container">
         <Switch>
-          {/* <Route path="/" exact component={Items} /> */}
-          <Route
+          <Route path="/" exact component={Items} />
+          {/* <Route
             path="/"
             exact
-            render={() => <Items appStateHandler={appStateHandler} />}
-          />
+            render={() => <Items routeStateHandler={routeStateHandler} />}
+          /> */}
+          <Route path="/page/:number" exact component={Items} />
           <Route path="/new" component={NewItem} />
           <Route path="/edit/:id" exact component={EditItem} />
           <Redirect to="/" />

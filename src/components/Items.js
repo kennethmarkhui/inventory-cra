@@ -1,40 +1,32 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
 
 import Item from './Item';
+import Pagination from './Pagination';
 import DUMMY_DATA from '../DUMMY_DATA.json';
 
 const Items = (props) => {
-  const updateAppState = () => {
-    props.appStateHandler('nice');
-  };
+  const [items, setItems] = useState(DUMMY_DATA);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(1);
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = items.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <React.Fragment>
       <div className="row">
-        {DUMMY_DATA.map((item) => {
+        {currentPosts.map((item) => {
           return <Item dummy={item} key={item.itemId} />;
         })}
       </div>
-      <p className="mt-3 text-center">Showing 1 to 50 of 1,035 titles</p>
-      <nav>
-        <ul className="pagination justify-content-center">
-          <li className="page-item">
-            <a className="page-link" href="/">
-              <FontAwesomeIcon icon="angle-double-left" color="black" />
-            </a>
-          </li>
-          <li className="page-item">
-            <a className="page-link" href="/">
-              1
-            </a>
-          </li>
-          <li className=" page-item">
-            <a className="page-link" href="/">
-              <FontAwesomeIcon icon="angle-double-right" color="black" />
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <Pagination
+        postsPerPage={postsPerPage}
+        totalPosts={items.length}
+        paginate={paginate}
+      />
     </React.Fragment>
   );
 };

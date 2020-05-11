@@ -1,8 +1,6 @@
 import React from 'react';
 
 const NewItem = (props) => {
-  // console.log(props);
-
   return (
     <div className="card">
       <h6 className="card-header">Add new Item</h6>
