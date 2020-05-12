@@ -1,18 +1,14 @@
 import React from 'react';
 
-import DUMMY_DATA from '../DUMMY_DATA.json';
-
 const EditItem = (props) => {
-  // console.log(props);
+  // console.log(props.location.data);
 
-  // console.log(props.match.params.id);
-  // console.log(DUMMY_DATA);
-  const result = DUMMY_DATA.find(
-    (item) => item.itemId === props.match.params.id
+  return (
+    <div>
+      <h1>ID:{props.location.data.id}</h1>
+      <h1>TITLE:{props.location.data.title}</h1>
+    </div>
   );
-  // console.log(result);
-
-  return <h1>{result.name.en}</h1>;
 };
 
 export default EditItem;

@@ -33,7 +33,7 @@ const App = (props) => {
             exact
             render={() => <Items routeStateHandler={routeStateHandler} />}
           /> */}
-          <Route path="/page/:number" exact component={Items} />
+          <Route path="/page/:pageNumber" exact component={Items} />
           <Route path="/new" component={NewItem} />
           <Route path="/edit/:id" exact component={EditItem} />
           <Redirect to="/" />

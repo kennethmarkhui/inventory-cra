@@ -1,34 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import Item from './Item';
 import Pagination from './Pagination';
-import DUMMY_DATA from '../DUMMY_DATA.json';
+import Spinner from './Spinner';
 
 const Items = (props) => {
-  const [items, setItems] = useState(DUMMY_DATA);
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostsPerPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = items.slice(indexOfFirstPost, indexOfLastPost);
+  useEffect(() => {
+    const fetchItems = async () => {
+      setLoading(true);
+      const res = await axios.get(
+        'http://jsonplaceholder.typicode.com/photos?_start=0&_limit=100'
+      );
+      setItems(res.data);
+      setLoading(false);
+    };
+    fetchItems();
+  }, []);
+
+  const indexOfLastPost = currentPage * itemsPerPage;
+  const indexOfFirstPost = indexOfLastPost - itemsPerPage;
+  const currentItems = items.slice(indexOfFirstPost, indexOfLastPost);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  return (
-    <React.Fragment>
-      <div className="row">
-        {currentPosts.map((item) => {
-          return <Item dummy={item} key={item.itemId} />;
-        })}
-      </div>
-      <Pagination
-        postsPerPage={postsPerPage}
-        totalPosts={items.length}
-        paginate={paginate}
-      />
-    </React.Fragment>
-  );
+  let content = <Spinner />;
+  if (!loading) {
+    content = (
+      <React.Fragment>
+        <div className="row">
+          {currentItems.map((item) => {
+            return <Item dummy={item} key={item.id} />;
+          })}
+        </div>
+        <Pagination
+          postsPerPage={itemsPerPage}
+          totalPosts={items.length}
+          paginate={paginate}
+        />
+      </React.Fragment>
+    );
+  }
+
+  return content;
 };
 
 export default Items;

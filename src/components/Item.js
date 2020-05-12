@@ -16,7 +16,7 @@ const Item = (props) => {
               <div className="img-container embed-responsive">
                 <img
                   className="embed-responsive-item img-fit"
-                  src={props.dummy.imgUrl}
+                  src={props.dummy.url}
                   alt=""
                 />
               </div>
@@ -25,14 +25,23 @@ const Item = (props) => {
               <a href="/" className="float-right">
                 <FontAwesomeIcon icon="times" color="black" />
               </a>
+              {/* <NavLink
+                to={`/edit/${props.dummy.id}`}
+                className="float-right mr-3"
+              >
+                <FontAwesomeIcon icon="pen" color="black" />
+              </NavLink> */}
               <NavLink
-                to={`/edit/${props.dummy.itemId}`}
+                to={{
+                  pathname: `/edit/${props.dummy.id}`,
+                  data: props.dummy,
+                }}
                 className="float-right mr-3"
               >
                 <FontAwesomeIcon icon="pen" color="black" />
               </NavLink>
               <h5 className="text-dark d-block mt-2 text-truncate">
-                <span title={props.dummy.name.en}>{props.dummy.name.en}</span>
+                <span title={props.dummy.title}>{props.dummy.title}</span>
               </h5>
               <hr className="m-1" />
               <dl
@@ -40,15 +49,13 @@ const Item = (props) => {
                 style={{ fontSize: '.9rem' }}
               >
                 <dt className="col-sm-4">Storage</dt>
-                <dd className="col-sm-8 mb-0">{props.dummy.itemStorage}</dd>
+                <dd className="col-sm-8 mb-0">{props.dummy.albumId}</dd>
                 <dt className="col-sm-4">Category</dt>
-                <dd className="col-sm-8 mb-0">{props.dummy.category.en}</dd>
+                <dd className="col-sm-8 mb-0">Display Art</dd>
                 <dt className="col-sm-4">Location</dt>
-                <dd className="col-sm-8 mb-0">
-                  {props.dummy.location.country.en}
-                </dd>
+                <dd className="col-sm-8 mb-0">Taiwan</dd>
                 <dt className="col-sm-4">Period</dt>
-                <dd className="col-sm-8 mb-0">{props.dummy.period.en}</dd>
+                <dd className="col-sm-8 mb-0">Contemporary Work</dd>
               </dl>
               <hr className="m-1" />
               <div className="row text-center" style={{ fontSize: '.9rem' }}>
@@ -58,17 +65,13 @@ const Item = (props) => {
                 <div className="col-6">
                   <dl className="row mb-0">
                     <dt className="col-sm-5">IN</dt>
-                    <dd className="col-sm-7 mb-0">
-                      {props.dummy.size.in.len}x{props.dummy.size.in.wid}
-                    </dd>
+                    <dd className="col-sm-7 mb-0">999x999</dd>
                   </dl>
                 </div>
                 <div className="col-6">
                   <dl className="row mb-0">
                     <dt className="col-sm-5">OUT</dt>
-                    <dd className="col-sm-7 mb-0">
-                      {props.dummy.size.out.len}x{props.dummy.size.out.wid}
-                    </dd>
+                    <dd className="col-sm-7 mb-0">999x999</dd>
                   </dl>
                 </div>
               </div>
@@ -76,7 +79,7 @@ const Item = (props) => {
           </div>
         </div>
         <div className="card-footer w-100 text-muted text-center p-1">
-          {props.dummy.itemId}
+          {props.dummy.id}
         </div>
       </div>
     </div>
