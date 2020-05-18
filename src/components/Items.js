@@ -15,7 +15,7 @@ const Items = (props) => {
     const fetchItems = async () => {
       setLoading(true);
       const res = await axios.get(
-        'http://jsonplaceholder.typicode.com/photos?_start=0&_limit=100'
+        'http://jsonplaceholder.typicode.com/photos?_limit=100'
       );
       setItems(res.data);
       setLoading(false);
