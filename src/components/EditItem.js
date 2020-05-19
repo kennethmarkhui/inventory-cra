@@ -20,7 +20,7 @@ const EditItem = (props) => {
       content = (
         <div>
           <h1>ID:{props.location.data.id}</h1>
-          <h1>TITLE:{props.location.data.title}</h1>
+          <h1>NAME:{props.location.data.name}</h1>
         </div>
       );
     }

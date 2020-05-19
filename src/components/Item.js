@@ -16,7 +16,7 @@ const Item = (props) => {
               <div className="img-container embed-responsive">
                 <img
                   className="embed-responsive-item img-fit"
-                  src={props.dummy.url}
+                  src={props.dummy.image}
                   alt=""
                 />
               </div>
@@ -41,7 +41,7 @@ const Item = (props) => {
                 <FontAwesomeIcon icon="pen" color="black" />
               </NavLink>
               <h5 className="text-dark d-block mt-2 text-truncate">
-                <span title={props.dummy.title}>{props.dummy.title}</span>
+                <span title={props.dummy.name}>{props.dummy.name}</span>
               </h5>
               <hr className="m-1" />
               <dl
@@ -49,13 +49,15 @@ const Item = (props) => {
                 style={{ fontSize: '.9rem' }}
               >
                 <dt className="col-sm-4">Storage</dt>
-                <dd className="col-sm-8 mb-0">{props.dummy.albumId}</dd>
+                <dd className="col-sm-8 mb-0">{props.dummy.storage}</dd>
                 <dt className="col-sm-4">Category</dt>
-                <dd className="col-sm-8 mb-0">Display Art</dd>
+                <dd className="col-sm-8 mb-0">{props.dummy.category}</dd>
                 <dt className="col-sm-4">Location</dt>
-                <dd className="col-sm-8 mb-0">Taiwan</dd>
+                <dd className="col-sm-8 mb-0">
+                  {props.dummy.location.country}
+                </dd>
                 <dt className="col-sm-4">Period</dt>
-                <dd className="col-sm-8 mb-0">Contemporary Work</dd>
+                <dd className="col-sm-8 mb-0">{props.dummy.time_period}</dd>
               </dl>
               <hr className="m-1" />
               <div className="row text-center" style={{ fontSize: '.9rem' }}>
