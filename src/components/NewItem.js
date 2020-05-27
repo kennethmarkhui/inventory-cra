@@ -1,4 +1,14 @@
 import React, { useState } from 'react';
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Col,
+} from 'reactstrap';
 
 const NewItem = (props) => {
   const [formState, setFormState] = useState({ value: 'display-art' });
@@ -8,85 +18,83 @@ const NewItem = (props) => {
   };
 
   return (
-    <div className="card">
-      <h6 className="card-header">Add new Item</h6>
-      <div className="card-body">
-        <form>
-          <div className="form-group row">
-            <label className="col-md-3 col-form-label" htmlFor="category">
+    <Card>
+      <CardHeader className="h6">Add new Item</CardHeader>
+      <CardBody>
+        <Form>
+          <FormGroup row>
+            <Label md="3" htmlFor="category">
               Category
-            </label>
-            <div className="col-md-9">
-              <select
+            </Label>
+            <Col md="9">
+              <Input
+                type="select"
                 className="form-control"
                 onChange={onCategoryChangeHandler}
                 id="category"
               >
                 <option value="display-art">Display Art</option>
                 <option value="others">Others</option>
-              </select>
-            </div>
-          </div>
+              </Input>
+            </Col>
+          </FormGroup>
 
           <hr />
 
           {formState.value === 'display-art' && (
             <React.Fragment>
-              <div className="form-group row">
-                <label htmlFor="itemId" className="col-md-3 col-form-label">
+              <FormGroup row>
+                <Label md="3" htmlFor="itemId">
                   Item ID
-                </label>
-                <div className="col-md-9">
-                  <input type="text" className="form-control" id="itemId" />
-                </div>
-              </div>
+                </Label>
+                <Col md="9">
+                  <Input type="text" className="form-control" id="itemId" />
+                </Col>
+              </FormGroup>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="itemStorage"
-                  className="col-md-3 col-form-label"
-                >
+              <FormGroup row>
+                <Label md="3" htmlFor="itemStorage">
                   Storage
-                </label>
-                <div className="col-md-9">
-                  <input
+                </Label>
+                <Col md="9">
+                  <Input
                     type="text"
                     className="form-control"
                     id="itemStorage"
                   />
-                </div>
-              </div>
+                </Col>
+              </FormGroup>
 
-              <div className="form-group row">
-                <label htmlFor="itemName" className="col-md-3 col-form-label">
+              <FormGroup row>
+                <Label md="3" htmlFor="itemName">
                   Name
-                </label>
-                <div className="col-md-9">
-                  <input type="text" className="form-control" id="itemName" />
-                </div>
-              </div>
+                </Label>
+                <Col md="9">
+                  <Input type="text" className="form-control" id="itemName" />
+                </Col>
+              </FormGroup>
 
-              <div className="form-group row">
-                <label htmlFor="itemPeriod" className="col-md-3 col-form-label">
+              <FormGroup row>
+                <Label md="3" htmlFor="itemPeriod">
                   Period
-                </label>
-                <div className="col-md-9">
-                  <input type="text" className="form-control" id="itemPeriod" />
-                </div>
-              </div>
+                </Label>
+                <Col md="9">
+                  <Input type="text" className="form-control" id="itemPeriod" />
+                </Col>
+              </FormGroup>
 
-              <div className="form-group row">
-                <label htmlFor="itemSizes" className="col-md-3 col-form-label">
+              <FormGroup row>
+                <Label md="3" htmlFor="itemSizes">
                   Sizes
-                </label>
-                <div className="col-md-9"></div>
-              </div>
+                </Label>
+                <Col md="9"></Col>
+              </FormGroup>
 
-              <div className="form-group row">
-                <label htmlFor="imgFile" className="col-md-3 col-form-label">
+              <FormGroup row>
+                <Label md="3" htmlFor="imgFile">
                   Image
-                </label>
-                <div className="col-md-9">
+                </Label>
+                <Col md="9">
                   {/* <div className="btn-group">
                     <button type="button" className="btn btn-secondary">
                       URL
@@ -102,71 +110,68 @@ const NewItem = (props) => {
                     </span>
                   </div> */}
 
-                  <input
+                  <Input
                     type="text"
                     placeholder="URL"
                     className="form-control"
                     id="itemUrlImage"
                   />
-                </div>
-              </div>
+                </Col>
+              </FormGroup>
             </React.Fragment>
           )}
 
           {formState.value === 'others' && (
             <React.Fragment>
-              <div className="form-group row">
-                <label htmlFor="itemId" className="col-md-3 col-form-label">
+              <FormGroup row>
+                <Label md="3" htmlFor="itemId">
                   Item ID
-                </label>
-                <div className="col-md-9">
-                  <input type="text" className="form-control" id="itemId" />
-                </div>
-              </div>
+                </Label>
+                <Col md="9">
+                  <Input type="text" className="form-control" id="itemId" />
+                </Col>
+              </FormGroup>
 
-              <div className="form-group row">
-                <label
-                  htmlFor="itemStorage"
-                  className="col-md-3 col-form-label"
-                >
+              <FormGroup row>
+                <Label md="3" htmlFor="itemStorage">
                   Storage
-                </label>
-                <div className="col-md-9">
-                  <input
+                </Label>
+                <Col md="9">
+                  <Input
                     type="text"
                     className="form-control"
                     id="itemStorage"
                   />
-                </div>
-              </div>
+                </Col>
+              </FormGroup>
 
-              <div className="form-group row">
-                <label htmlFor="itemName" className="col-md-3 col-form-label">
+              <FormGroup row>
+                <Label md="3" htmlFor="itemName">
                   Name
-                </label>
-                <div className="col-md-9">
-                  <input type="text" className="form-control" id="itemName" />
-                </div>
-              </div>
+                </Label>
+                <Col md="9">
+                  <Input type="text" className="form-control" id="itemName" />
+                </Col>
+              </FormGroup>
 
-              <div className="form-group row">
-                <label htmlFor="imgFile" className="col-md-3 col-form-label">
+              <FormGroup row>
+                <Label md="3" htmlFor="imgFile">
                   Image
-                </label>
-                <div className="col-md-9">
-                  <input
+                </Label>
+                <Col md="9">
+                  <Input
                     type="text"
                     placeholder="URL"
                     className="form-control"
                     id="itemUrlImage"
                   />
-                </div>
-              </div>
+                </Col>
+              </FormGroup>
             </React.Fragment>
           )}
-        </form>
-      </div>
-    </div>
+        </Form>
+      </CardBody>
+    </Card>
   );
 };
 

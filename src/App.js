@@ -8,6 +8,7 @@ import {
   faAngleDoubleLeft,
   faAngleDoubleRight,
 } from '@fortawesome/free-solid-svg-icons';
+import { Container } from 'reactstrap';
 
 import Navigation from './components/Navigation';
 import Items from './components/Items';
@@ -15,31 +16,26 @@ import NewItem from './components/NewItem';
 import EditItem from './components/EditItem';
 import NotFound from './components/NotFound';
 import Footer from './components/Footer';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 library.add(faPen, faTimes, faPlus, faAngleDoubleLeft, faAngleDoubleRight);
 
 const App = (props) => {
-  // const [routeState, setRouteState] = useState('/');
-
   return (
     <BrowserRouter>
       <Navigation />
-      <div className="container">
+      <Container>
         <Switch>
           <Route path="/" exact component={Items} />
-          {/* <Route
-            path="/"
-            exact
-            render={() => <Items routeStateHandler={routeStateHandler} />}
-          /> */}
           <Route path="/page/:pageNumber" exact component={Items} />
           <Route path="/new" exact component={NewItem} />
           <Route path="/edit/:id" exact component={EditItem} />
           <Route path="/NotFound" component={NotFound} />
           <Redirect to="/NotFound" />
         </Switch>
-      </div>
+      </Container>
       <Footer />
     </BrowserRouter>
   );

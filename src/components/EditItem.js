@@ -1,31 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
 import Spinner from './Spinner';
 
 const EditItem = (props) => {
-  // console.log(props.location.data);
-  const [redirct, setRedirct] = useState(false);
+  const itemId = useParams().id;
+  const [itemToEdit, setItemToEdit] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!props.location.data) {
-      setRedirct(true);
-    }
-  }, [props]);
-
-  if (redirct) {
-    return <Redirect to="/" />;
-  } else {
-    let content = <Spinner />;
-    if (props.location.data) {
-      content = (
-        <div>
-          <h1>ID:{props.location.data.id}</h1>
-          <h1>NAME:{props.location.data.name}</h1>
-        </div>
+    const fetchItems = async () => {
+      setIsLoading(true);
+      const res = await axios.get(
+        `https://my.api.mockaroo.com/api/items/${itemId}?key=7d747620`
       );
-    }
-    return content;
-  }
+      setItemToEdit(res.data);
+      setIsLoading(false);
+    };
+    fetchItems();
+  }, [itemId]);
+
+  return (
+    <React.Fragment>
+      {isLoading && <Spinner />}
+      {!isLoading && itemToEdit && (
+        <React.Fragment>
+          <p>{itemToEdit.id}</p>
+          <p>{itemToEdit.storage}</p>
+          <p>{itemToEdit.name}</p>
+          <p>{itemToEdit.category}</p>
+          <p>{itemToEdit.location.country}</p>
+          <p>{itemToEdit.time_period}</p>
+        </React.Fragment>
+      )}
+    </React.Fragment>
+  );
 };
 
 export default EditItem;

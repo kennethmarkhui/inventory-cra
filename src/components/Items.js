@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Row } from 'reactstrap';
 
 import Item from './Item';
 import Pagination from './Pagination';
@@ -16,7 +17,7 @@ const Items = (props) => {
       setIsLoading(true);
       // http://jsonplaceholder.typicode.com/photos?_limit=100
       const res = await axios.get(
-        'https://my.api.mockaroo.com/inventory-item-schema.json?key=7d747620'
+        'https://my.api.mockaroo.com/api/items?key=7d747620'
       );
       setItems(res.data);
       setIsLoading(false);
@@ -35,11 +36,11 @@ const Items = (props) => {
       {isLoading && <Spinner />}
       {!isLoading && items && (
         <React.Fragment>
-          <div className="row">
+          <Row>
             {currentItems.map((item) => {
               return <Item dummy={item} key={item.id} />;
             })}
-          </div>
+          </Row>
           <Pagination
             postsPerPage={itemsPerPage}
             totalPosts={items.length}

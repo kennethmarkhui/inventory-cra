@@ -1,24 +1,25 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Container, Navbar, Nav, NavItem } from 'reactstrap';
 
 const Navigation = (props) => {
   return (
     <header className="mb-5 sticky-top">
-      <nav className="navbar navbar-dark bg-dark">
-        <div className="container">
+      <Navbar color="dark" dark>
+        <Container>
           <NavLink to="/" className="navbar-brand">
             Inventory
           </NavLink>
-          <ul className="navbar-nav">
-            <li className="navbar-item">
+          <Nav navbar>
+            <NavItem>
               <NavLink to={{ pathname: '/new' }} className="nav-link">
                 <FontAwesomeIcon icon="plus" color="white" />
               </NavLink>
-            </li>
-          </ul>
-        </div>
-      </nav>
+            </NavItem>
+          </Nav>
+        </Container>
+      </Navbar>
     </header>
   );
 };
