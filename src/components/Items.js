@@ -38,7 +38,7 @@ const Items = (props) => {
         <React.Fragment>
           <Row>
             {currentItems.map((item) => {
-              return <Item dummy={item} key={item.id} />;
+              return <Item dummy={item} key={item.refId} />;
             })}
           </Row>
           <Pagination

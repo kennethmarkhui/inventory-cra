@@ -5,7 +5,7 @@ const ImageModal = (props) => {
   return (
     <Modal isOpen={props.modal} toggle={props.toggle} centered>
       <ModalBody className="p-0">
-        <img src={props.image} alt="dummy" style={{ width: '100%' }} />
+        <img src={props.image} className="rounded img-fluid" alt="dummy" />
       </ModalBody>
     </Modal>
   );

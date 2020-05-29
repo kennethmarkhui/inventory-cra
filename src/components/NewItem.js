@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardHeader,
@@ -8,20 +9,36 @@ import {
   Label,
   Input,
   Col,
+  Button,
 } from 'reactstrap';
+
+import ImageUpload from './ImageUpload';
 
 const NewItem = (props) => {
   const [formState, setFormState] = useState({ value: 'display-art' });
+
+  const history = useHistory();
 
   const onCategoryChangeHandler = (event) => {
     setFormState({ value: event.target.value });
   };
 
+  const onCancel = (e) => {
+    e.preventDefault();
+    history.push('/');
+  };
+
+  const onSubmitForm = (e) => {
+    e.preventDefault();
+    console.log('Confirm');
+  };
+
   return (
     <Card>
       <CardHeader className="h6">Add new Item</CardHeader>
+
       <CardBody>
-        <Form>
+        <Form onSubmit={onSubmitForm}>
           <FormGroup row>
             <Label md="3" htmlFor="category">
               Category
@@ -29,7 +46,6 @@ const NewItem = (props) => {
             <Col md="9">
               <Input
                 type="select"
-                className="form-control"
                 onChange={onCategoryChangeHandler}
                 id="category"
               >
@@ -44,78 +60,52 @@ const NewItem = (props) => {
           {formState.value === 'display-art' && (
             <React.Fragment>
               <FormGroup row>
-                <Label md="3" htmlFor="itemId">
-                  Item ID
-                </Label>
-                <Col md="9">
-                  <Input type="text" className="form-control" id="itemId" />
+                <Col md="3">
+                  <ImageUpload id="image" />
                 </Col>
-              </FormGroup>
-
-              <FormGroup row>
-                <Label md="3" htmlFor="itemStorage">
-                  Storage
-                </Label>
                 <Col md="9">
-                  <Input
-                    type="text"
-                    className="form-control"
-                    id="itemStorage"
-                  />
-                </Col>
-              </FormGroup>
+                  <FormGroup row>
+                    <Label md="3" htmlFor="itemId">
+                      Item ID
+                    </Label>
+                    <Col md="9">
+                      <Input type="text" id="itemId" />
+                    </Col>
+                  </FormGroup>
 
-              <FormGroup row>
-                <Label md="3" htmlFor="itemName">
-                  Name
-                </Label>
-                <Col md="9">
-                  <Input type="text" className="form-control" id="itemName" />
-                </Col>
-              </FormGroup>
+                  <FormGroup row>
+                    <Label md="3" htmlFor="itemStorage">
+                      Storage
+                    </Label>
+                    <Col md="9">
+                      <Input type="text" id="itemStorage" />
+                    </Col>
+                  </FormGroup>
 
-              <FormGroup row>
-                <Label md="3" htmlFor="itemPeriod">
-                  Period
-                </Label>
-                <Col md="9">
-                  <Input type="text" className="form-control" id="itemPeriod" />
-                </Col>
-              </FormGroup>
+                  <FormGroup row>
+                    <Label md="3" htmlFor="itemName">
+                      Name
+                    </Label>
+                    <Col md="9">
+                      <Input type="text" id="itemName" />
+                    </Col>
+                  </FormGroup>
 
-              <FormGroup row>
-                <Label md="3" htmlFor="itemSizes">
-                  Sizes
-                </Label>
-                <Col md="9"></Col>
-              </FormGroup>
+                  <FormGroup row>
+                    <Label md="3" htmlFor="itemPeriod">
+                      Period
+                    </Label>
+                    <Col md="9">
+                      <Input type="text" id="itemPeriod" />
+                    </Col>
+                  </FormGroup>
 
-              <FormGroup row>
-                <Label md="3" htmlFor="imgFile">
-                  Image
-                </Label>
-                <Col md="9">
-                  {/* <div className="btn-group">
-                    <button type="button" className="btn btn-secondary">
-                      URL
-                    </button>
-                    <button type="button" className="btn btn-secondary">
-                      UPLOAD
-                    </button>
-                  </div>
-                  <div className="input-group">
-                    <input type="text" className="form-control" disabled />
-                    <span className="input-group-append">
-                      <span className="btn btn-secondary">Browse</span>
-                    </span>
-                  </div> */}
-
-                  <Input
-                    type="text"
-                    placeholder="URL"
-                    className="form-control"
-                    id="itemUrlImage"
-                  />
+                  <FormGroup row>
+                    <Label md="3" htmlFor="itemSizes">
+                      Sizes
+                    </Label>
+                    <Col md="9"></Col>
+                  </FormGroup>
                 </Col>
               </FormGroup>
             </React.Fragment>
@@ -124,51 +114,49 @@ const NewItem = (props) => {
           {formState.value === 'others' && (
             <React.Fragment>
               <FormGroup row>
-                <Label md="3" htmlFor="itemId">
-                  Item ID
-                </Label>
-                <Col md="9">
-                  <Input type="text" className="form-control" id="itemId" />
+                <Col md="3">
+                  <ImageUpload id="image" />
                 </Col>
-              </FormGroup>
 
-              <FormGroup row>
-                <Label md="3" htmlFor="itemStorage">
-                  Storage
-                </Label>
                 <Col md="9">
-                  <Input
-                    type="text"
-                    className="form-control"
-                    id="itemStorage"
-                  />
-                </Col>
-              </FormGroup>
+                  <FormGroup row>
+                    <Label md="3" htmlFor="itemId">
+                      Item ID
+                    </Label>
+                    <Col md="9">
+                      <Input type="text" id="itemId" />
+                    </Col>
+                  </FormGroup>
 
-              <FormGroup row>
-                <Label md="3" htmlFor="itemName">
-                  Name
-                </Label>
-                <Col md="9">
-                  <Input type="text" className="form-control" id="itemName" />
-                </Col>
-              </FormGroup>
+                  <FormGroup row>
+                    <Label md="3" htmlFor="itemStorage">
+                      Storage
+                    </Label>
+                    <Col md="9">
+                      <Input type="text" id="itemStorage" />
+                    </Col>
+                  </FormGroup>
 
-              <FormGroup row>
-                <Label md="3" htmlFor="imgFile">
-                  Image
-                </Label>
-                <Col md="9">
-                  <Input
-                    type="text"
-                    placeholder="URL"
-                    className="form-control"
-                    id="itemUrlImage"
-                  />
+                  <FormGroup row>
+                    <Label md="3" htmlFor="itemName">
+                      Name
+                    </Label>
+                    <Col md="9">
+                      <Input type="text" id="itemName" />
+                    </Col>
+                  </FormGroup>
                 </Col>
               </FormGroup>
             </React.Fragment>
           )}
+
+          <hr />
+          <Button color="success" className="float-right" type="submit">
+            Confirm
+          </Button>
+          <Button color="light" className="float-right mr-2" onClick={onCancel}>
+            Cancel
+          </Button>
         </Form>
       </CardBody>
     </Card>
