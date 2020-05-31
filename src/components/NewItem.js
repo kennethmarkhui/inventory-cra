@@ -15,22 +15,36 @@ import {
 import ImageUpload from './ImageUpload';
 
 const NewItem = (props) => {
-  const [formState, setFormState] = useState({ value: 'display-art' });
+  const [formState, setFormState] = useState({
+    category: 'display-art',
+    refId: '',
+    storage: '',
+    name: '',
+    location: '',
+    period: '',
+  });
 
   const history = useHistory();
 
-  const onCategoryChangeHandler = (event) => {
-    setFormState({ value: event.target.value });
+  const onFormChange = (e) => {
+    setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
-  const onCancel = (e) => {
-    e.preventDefault();
+  const onCancel = () => {
     history.push('/');
   };
 
-  const onSubmitForm = (e) => {
+  const onFormSubmit = (e) => {
     e.preventDefault();
-    console.log('Confirm');
+    console.log(formState);
+    setFormState({
+      category: 'display-art',
+      refId: '',
+      storage: '',
+      name: '',
+      location: '',
+      period: '',
+    });
   };
 
   return (
@@ -38,7 +52,7 @@ const NewItem = (props) => {
       <CardHeader className="h6">Add new Item</CardHeader>
 
       <CardBody>
-        <Form onSubmit={onSubmitForm}>
+        <Form onSubmit={onFormSubmit}>
           <FormGroup row>
             <Label md="3" htmlFor="category">
               Category
@@ -46,8 +60,10 @@ const NewItem = (props) => {
             <Col md="9">
               <Input
                 type="select"
-                onChange={onCategoryChangeHandler}
+                onChange={onFormChange}
                 id="category"
+                name="category"
+                value={formState.category}
               >
                 <option value="display-art">Display Art</option>
                 <option value="others">Others</option>
@@ -57,98 +73,100 @@ const NewItem = (props) => {
 
           <hr />
 
-          {formState.value === 'display-art' && (
-            <React.Fragment>
-              <FormGroup row>
-                <Col md="3">
-                  <ImageUpload id="image" />
-                </Col>
-                <Col md="9">
-                  <FormGroup row>
-                    <Label md="3" htmlFor="itemId">
-                      Item ID
-                    </Label>
-                    <Col md="9">
-                      <Input type="text" id="itemId" />
-                    </Col>
-                  </FormGroup>
+          <React.Fragment>
+            <FormGroup row>
+              <Col lg="3">
+                <ImageUpload id="image" />
+              </Col>
+              <Col lg="9">
+                <FormGroup row>
+                  <Label lg="3" htmlFor="refId">
+                    Item ID
+                  </Label>
+                  <Col lg="9">
+                    <Input
+                      type="text"
+                      id="refId"
+                      name="refId"
+                      value={formState.refId}
+                      onChange={onFormChange}
+                    />
+                  </Col>
+                </FormGroup>
 
-                  <FormGroup row>
-                    <Label md="3" htmlFor="itemStorage">
-                      Storage
-                    </Label>
-                    <Col md="9">
-                      <Input type="text" id="itemStorage" />
-                    </Col>
-                  </FormGroup>
+                <FormGroup row>
+                  <Label lg="3" htmlFor="storage">
+                    Storage
+                  </Label>
+                  <Col lg="9">
+                    <Input
+                      type="text"
+                      id="storage"
+                      name="storage"
+                      value={formState.storage}
+                      onChange={onFormChange}
+                    />
+                  </Col>
+                </FormGroup>
 
-                  <FormGroup row>
-                    <Label md="3" htmlFor="itemName">
-                      Name
-                    </Label>
-                    <Col md="9">
-                      <Input type="text" id="itemName" />
-                    </Col>
-                  </FormGroup>
+                <FormGroup row>
+                  <Label lg="3" htmlFor="name">
+                    Name
+                  </Label>
+                  <Col lg="9">
+                    <Input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formState.name}
+                      onChange={onFormChange}
+                    />
+                  </Col>
+                </FormGroup>
 
+                <FormGroup row>
+                  <Label lg="3" htmlFor="location">
+                    Location
+                  </Label>
+                  <Col lg="9">
+                    <Input
+                      type="text"
+                      id="location"
+                      name="location"
+                      value={formState.location}
+                      onChange={onFormChange}
+                    />
+                  </Col>
+                </FormGroup>
+
+                {formState.category === 'display-art' && (
                   <FormGroup row>
-                    <Label md="3" htmlFor="itemPeriod">
+                    <Label lg="3" htmlFor="period">
                       Period
                     </Label>
-                    <Col md="9">
-                      <Input type="text" id="itemPeriod" />
+                    <Col lg="9">
+                      <Input
+                        type="text"
+                        id="period"
+                        name="period"
+                        value={formState.period}
+                        onChange={onFormChange}
+                      />
                     </Col>
                   </FormGroup>
+                )}
 
+                {formState.category === 'display-art' && (
                   <FormGroup row>
-                    <Label md="3" htmlFor="itemSizes">
+                    <Label lg="3" htmlFor="sizes">
                       Sizes
                     </Label>
-                    <Col md="9"></Col>
+                    <Col lg="9"></Col>
                   </FormGroup>
-                </Col>
-              </FormGroup>
-            </React.Fragment>
-          )}
-
-          {formState.value === 'others' && (
-            <React.Fragment>
-              <FormGroup row>
-                <Col md="3">
-                  <ImageUpload id="image" />
-                </Col>
-
-                <Col md="9">
-                  <FormGroup row>
-                    <Label md="3" htmlFor="itemId">
-                      Item ID
-                    </Label>
-                    <Col md="9">
-                      <Input type="text" id="itemId" />
-                    </Col>
-                  </FormGroup>
-
-                  <FormGroup row>
-                    <Label md="3" htmlFor="itemStorage">
-                      Storage
-                    </Label>
-                    <Col md="9">
-                      <Input type="text" id="itemStorage" />
-                    </Col>
-                  </FormGroup>
-
-                  <FormGroup row>
-                    <Label md="3" htmlFor="itemName">
-                      Name
-                    </Label>
-                    <Col md="9">
-                      <Input type="text" id="itemName" />
-                    </Col>
-                  </FormGroup>
-                </Col>
-              </FormGroup>
-            </React.Fragment>
-          )}
+                )}
+              </Col>
+            </FormGroup>
+          </React.Fragment>
 
           <hr />
           <Button color="success" className="float-right" type="submit">

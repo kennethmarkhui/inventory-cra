@@ -15,7 +15,7 @@ const Item = (props) => {
     <React.Fragment>
       <ImageModal
         toggle={toggleImageModal}
-        modal={showImageModal}
+        show={showImageModal}
         image={props.dummy.image}
       />
       <Col lg="6" className="mb-3">
