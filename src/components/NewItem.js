@@ -8,7 +8,11 @@ import {
   FormGroup,
   Label,
   Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
   Col,
+  Row,
   Button,
 } from 'reactstrap';
 
@@ -22,12 +26,19 @@ const NewItem = (props) => {
     name: '',
     location: '',
     period: '',
+    size1L: '',
+    size1W: '',
+    size2L: '',
+    size2W: '',
   });
 
   const history = useHistory();
 
   const onFormChange = (e) => {
-    setFormState({ ...formState, [e.target.name]: e.target.value });
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const onCancel = () => {
@@ -44,6 +55,10 @@ const NewItem = (props) => {
       name: '',
       location: '',
       period: '',
+      size1L: '',
+      size1W: '',
+      size2L: '',
+      size2W: '',
     });
   };
 
@@ -161,7 +176,56 @@ const NewItem = (props) => {
                     <Label lg="3" htmlFor="sizes">
                       Sizes
                     </Label>
-                    <Col lg="9"></Col>
+                    <Col lg="9">
+                      <Row>
+                        <Col sm="6">
+                          <InputGroup>
+                            <Input
+                              type="number"
+                              min="0"
+                              step=".25"
+                              name="size1L"
+                              value={formState.size1L}
+                              onChange={onFormChange}
+                            />
+                            <InputGroupAddon addonType="append">
+                              <InputGroupText>x</InputGroupText>
+                            </InputGroupAddon>
+                            <Input
+                              type="number"
+                              min="0"
+                              step=".25"
+                              name="size1W"
+                              value={formState.size1W}
+                              onChange={onFormChange}
+                            />
+                          </InputGroup>
+                        </Col>
+                        <Col sm="6">
+                          <InputGroup>
+                            <Input
+                              type="number"
+                              min="0"
+                              step=".25"
+                              name="size2L"
+                              value={formState.size2L}
+                              onChange={onFormChange}
+                            />
+                            <InputGroupAddon addonType="append">
+                              <InputGroupText>x</InputGroupText>
+                            </InputGroupAddon>
+                            <Input
+                              type="number"
+                              min="0"
+                              step=".25"
+                              name="size2W"
+                              value={formState.size2W}
+                              onChange={onFormChange}
+                            />
+                          </InputGroup>
+                        </Col>
+                      </Row>
+                    </Col>
                   </FormGroup>
                 )}
               </Col>
