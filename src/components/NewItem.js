@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Card,
@@ -18,13 +18,18 @@ import {
 
 import ImageUpload from './ImageUpload';
 
+import ItemsContext from '../context/items/itemsContext';
+
 const NewItem = (props) => {
+  const itemsContext = useContext(ItemsContext);
+  const { addItem } = itemsContext;
   const [formState, setFormState] = useState({
     category: 'display-art',
     refId: '',
     storage: '',
     name: '',
-    location: '',
+    country: '',
+    area: '',
     period: '',
     size1L: '',
     size1W: '',
@@ -45,21 +50,15 @@ const NewItem = (props) => {
     history.push('/');
   };
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = async (e) => {
     e.preventDefault();
     console.log(formState);
-    setFormState({
-      category: 'display-art',
-      refId: '',
-      storage: '',
-      name: '',
-      location: '',
-      period: '',
-      size1L: '',
-      size1W: '',
-      size2L: '',
-      size2W: '',
-    });
+    try {
+      await addItem(formState);
+      history.push('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -81,7 +80,8 @@ const NewItem = (props) => {
                 value={formState.category}
               >
                 <option value="display-art">Display Art</option>
-                <option value="others">Others</option>
+                <option value="scroll">Scroll</option>
+                <option value="other">Other</option>
               </Input>
             </Col>
           </FormGroup>
@@ -140,15 +140,30 @@ const NewItem = (props) => {
                 </FormGroup>
 
                 <FormGroup row>
-                  <Label lg="3" htmlFor="location">
-                    Location
+                  <Label lg="3" htmlFor="country">
+                    Country
                   </Label>
                   <Col lg="9">
                     <Input
                       type="text"
-                      id="location"
-                      name="location"
-                      value={formState.location}
+                      id="country"
+                      name="country"
+                      value={formState.country}
+                      onChange={onFormChange}
+                    />
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row>
+                  <Label lg="3" htmlFor="area">
+                    Area
+                  </Label>
+                  <Col lg="9">
+                    <Input
+                      type="text"
+                      id="area"
+                      name="area"
+                      value={formState.area}
                       onChange={onFormChange}
                     />
                   </Col>

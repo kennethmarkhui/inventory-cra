@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Row, Col, Card, CardBody, CardFooter } from 'reactstrap';
@@ -6,10 +6,20 @@ import { Row, Col, Card, CardBody, CardFooter } from 'reactstrap';
 import ImageModal from './ImageModal';
 import './Item.css';
 
+import ItemsContext from '../context/items/itemsContext';
+
 const Item = (props) => {
+  const itemsContext = useContext(ItemsContext);
+  const { deleteItem } = itemsContext;
+
   // console.log(props);
   const [showImageModal, setShowImageModal] = useState(false);
   const toggleImageModal = () => setShowImageModal(!showImageModal);
+
+  const onDelete = () => {
+    // console.log(props.dummy);
+    deleteItem(props.dummy._id);
+  };
 
   return (
     <React.Fragment>
@@ -33,7 +43,7 @@ const Item = (props) => {
                 </div>
               </Col>
               <Col sm="8">
-                <NavLink to="/" className="float-right">
+                <NavLink to="/" className="float-right" onClick={onDelete}>
                   <FontAwesomeIcon icon="times" color="black" />
                 </NavLink>
                 <NavLink
@@ -57,9 +67,13 @@ const Item = (props) => {
                   <dt className="col-sm-4">Location</dt>
                   <dd className="col-sm-8 mb-0">
                     {props.dummy.location.country}
+                    {props.dummy.location.area &&
+                      ', ' + props.dummy.location.area}
                   </dd>
                   <dt className="col-sm-4">Period</dt>
-                  <dd className="col-sm-8 mb-0">{props.dummy.time_period}</dd>
+                  <dd className="col-sm-8 mb-0">
+                    {props.dummy.period || 'Unknown'}
+                  </dd>
                 </Row>
                 <hr className="m-1" />
                 <Row className="text-center" style={{ fontSize: '.9rem' }}>
@@ -69,14 +83,16 @@ const Item = (props) => {
                   <Col xs="6">
                     <Row>
                       <Col>
-                        {props.dummy.size[0].length}x{props.dummy.size[0].width}
+                        {props.dummy.sizes[0].len || '-'}x
+                        {props.dummy.sizes[0].wid || '-'}
                       </Col>
                     </Row>
                   </Col>
                   <Col xs="6">
                     <Row>
                       <Col>
-                        {props.dummy.size[1].length}x{props.dummy.size[1].width}
+                        {props.dummy.sizes[1].len || '-'}x
+                        {props.dummy.sizes[1].wid || '-'}
                       </Col>
                     </Row>
                   </Col>

@@ -17,6 +17,8 @@ import EditItem from './components/EditItem';
 import NotFound from './components/NotFound';
 import Footer from './components/Footer';
 
+import ItemsState from './context/items/itemsState';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -24,20 +26,22 @@ library.add(faPen, faTimes, faPlus, faAngleDoubleLeft, faAngleDoubleRight);
 
 const App = (props) => {
   return (
-    <BrowserRouter>
-      <Navigation />
-      <Container>
-        <Switch>
-          <Route path="/" exact component={Items} />
-          <Route path="/page/:pageNumber" exact component={Items} />
-          <Route path="/new" exact component={NewItem} />
-          <Route path="/edit/:id" exact component={EditItem} />
-          <Route path="/NotFound" component={NotFound} />
-          <Redirect to="/NotFound" />
-        </Switch>
-      </Container>
-      <Footer />
-    </BrowserRouter>
+    <ItemsState>
+      <BrowserRouter>
+        <Navigation />
+        <Container>
+          <Switch>
+            <Route path="/" exact component={Items} />
+            <Route path="/page/:pageNumber" exact component={Items} />
+            <Route path="/new" exact component={NewItem} />
+            <Route path="/edit/:id" exact component={EditItem} />
+            <Route path="/NotFound" component={NotFound} />
+            <Redirect to="/NotFound" />
+          </Switch>
+        </Container>
+        <Footer />
+      </BrowserRouter>
+    </ItemsState>
   );
 };
 
