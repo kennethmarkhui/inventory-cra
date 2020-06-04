@@ -24,7 +24,7 @@ const NewItem = (props) => {
   const itemsContext = useContext(ItemsContext);
   const { addItem, isLoading } = itemsContext;
   const [formState, setFormState] = useState({
-    category: 'display-art',
+    category: 'Display Art',
     refId: '',
     storage: '',
     name: '',
@@ -79,9 +79,9 @@ const NewItem = (props) => {
                 name="category"
                 value={formState.category}
               >
-                <option value="display-art">Display Art</option>
-                <option value="scroll">Scroll</option>
-                <option value="other">Other</option>
+                <option value="Display Art">Display Art</option>
+                <option value="Scroll">Scroll</option>
+                <option value="Others">Others</option>
               </Input>
             </Col>
           </FormGroup>

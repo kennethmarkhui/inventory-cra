@@ -1,5 +1,11 @@
 import React, { useContext } from 'react';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ListGroup,
+  ListGroupItem,
+} from 'reactstrap';
 
 import ItemsContext from '../context/items/itemsContext';
 
@@ -8,8 +14,20 @@ const ErrorModal = (props) => {
   const { error, clearError } = itemsContext;
   return (
     <Modal isOpen={!!error} centered>
-      <ModalHeader toggle={clearError}>Error</ModalHeader>
-      <ModalBody>{error}</ModalBody>
+      <ModalHeader toggle={clearError}>
+        An error occurred, please try again later.
+      </ModalHeader>
+      <ModalBody>
+        {Array.isArray(error) ? (
+          <ListGroup flush>
+            {error.map((err, index) => (
+              <ListGroupItem key={index}>{err}</ListGroupItem>
+            ))}
+          </ListGroup>
+        ) : (
+          <React.Fragment>{error}</React.Fragment>
+        )}
+      </ModalBody>
     </Modal>
   );
 };

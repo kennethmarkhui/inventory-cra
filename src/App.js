@@ -16,6 +16,7 @@ import NewItem from './components/NewItem';
 import EditItem from './components/EditItem';
 import NotFound from './components/NotFound';
 import Footer from './components/Footer';
+import ErrorModal from './components/ErrorModal';
 
 import ItemsState from './context/items/itemsState';
 
@@ -28,6 +29,7 @@ const App = (props) => {
   return (
     <ItemsState>
       <BrowserRouter>
+        <ErrorModal />
         <Navigation />
         <Container>
           <Switch>

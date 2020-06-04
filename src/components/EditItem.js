@@ -17,7 +17,6 @@ import {
 } from 'reactstrap';
 
 import Spinner from './Spinner';
-import ErrorModal from './ErrorModal';
 
 import ItemsContext from '../context/items/itemsContext';
 
@@ -89,7 +88,6 @@ const EditItem = (props) => {
 
   return (
     <React.Fragment>
-      <ErrorModal />
       {isLoading && <Spinner />}
       {!isLoading && item && (
         <React.Fragment>

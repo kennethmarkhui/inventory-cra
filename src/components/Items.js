@@ -3,7 +3,6 @@ import { Row } from 'reactstrap';
 
 import Item from './Item';
 import Spinner from './Spinner';
-import ErrorModal from './ErrorModal';
 
 import ItemsContext from '../context/items/itemsContext';
 
@@ -24,7 +23,6 @@ const Items = (props) => {
 
   return (
     <React.Fragment>
-      <ErrorModal />
       {isLoading && <Spinner />}
       {!isLoading && items && (
         <React.Fragment>
