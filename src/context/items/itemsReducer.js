@@ -1,6 +1,7 @@
 import {
   FETCH_ITEMS,
   FETCH_ITEM,
+  CLEAR_ITEMS,
   CLEAR_ITEM,
   ADD_ITEM,
   DELETE_ITEM,
@@ -23,6 +24,8 @@ export default (state, action) => {
         item: action.payload,
         isLoading: false,
       };
+    case CLEAR_ITEMS:
+      return { ...state, items: [] };
     case CLEAR_ITEM:
       return { ...state, item: null };
     case ADD_ITEM:

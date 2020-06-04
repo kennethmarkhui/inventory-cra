@@ -6,6 +6,7 @@ import ItemsReducer from './itemsReducer';
 import {
   FETCH_ITEMS,
   FETCH_ITEM,
+  CLEAR_ITEMS,
   CLEAR_ITEM,
   ADD_ITEM,
   SET_ISLOADING,
@@ -39,16 +40,14 @@ const ItemsState = (props) => {
     }
   };
 
-  //   FETCH_ITEM
-  const fetchItem = async (id) => {
+  //   FETCH_ITEM by refId
+  const fetchItem = async (refId) => {
     try {
       setIsLoading();
-      const res = await axios.get(
-        `https://my.api.mockaroo.com/api/items/${id}?key=7d747620`
-      );
+      const res = await axios.get(`http://localhost:5000/api/items/${refId}`);
       dispatch({ type: FETCH_ITEM, payload: res.data });
     } catch (error) {
-      // console.log(error.response.data.error);
+      console.log(error);
       setError(error.response.data.msg);
     }
   };
@@ -83,6 +82,9 @@ const ItemsState = (props) => {
     }
   };
 
+  //   CLEAR_ITEMS
+  const clearItems = () => dispatch({ type: CLEAR_ITEMS });
+
   //   CLEAR_ITEM
   const clearItem = () => dispatch({ type: CLEAR_ITEM });
 
@@ -106,6 +108,7 @@ const ItemsState = (props) => {
         error: state.error,
         fetchItems,
         fetchItem,
+        clearItems,
         clearItem,
         addItem,
         deleteItem,

@@ -9,10 +9,16 @@ import ItemsContext from '../context/items/itemsContext';
 
 const Items = (props) => {
   const itemsContext = useContext(ItemsContext);
-  const { isLoading, items, fetchItems } = itemsContext;
+  const { isLoading, items, fetchItems, clearItems } = itemsContext;
 
   useEffect(() => {
     fetchItems();
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    // componentWillUnmount
+    return () => clearItems();
     // eslint-disable-next-line
   }, []);
 

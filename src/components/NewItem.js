@@ -22,7 +22,7 @@ import ItemsContext from '../context/items/itemsContext';
 
 const NewItem = (props) => {
   const itemsContext = useContext(ItemsContext);
-  const { addItem } = itemsContext;
+  const { addItem, isLoading } = itemsContext;
   const [formState, setFormState] = useState({
     category: 'display-art',
     refId: '',
@@ -96,7 +96,7 @@ const NewItem = (props) => {
               <Col lg="9">
                 <FormGroup row>
                   <Label lg="3" htmlFor="refId">
-                    Item ID
+                    Reference ID
                   </Label>
                   <Col lg="9">
                     <Input
@@ -169,87 +169,96 @@ const NewItem = (props) => {
                   </Col>
                 </FormGroup>
 
-                {formState.category === 'display-art' && (
-                  <FormGroup row>
-                    <Label lg="3" htmlFor="period">
-                      Period
-                    </Label>
-                    <Col lg="9">
-                      <Input
-                        type="text"
-                        id="period"
-                        name="period"
-                        value={formState.period}
-                        onChange={onFormChange}
-                      />
-                    </Col>
-                  </FormGroup>
-                )}
+                <FormGroup row>
+                  <Label lg="3" htmlFor="period">
+                    Period
+                  </Label>
+                  <Col lg="9">
+                    <Input
+                      type="text"
+                      id="period"
+                      name="period"
+                      value={formState.period}
+                      onChange={onFormChange}
+                    />
+                  </Col>
+                </FormGroup>
 
-                {formState.category === 'display-art' && (
-                  <FormGroup row>
-                    <Label lg="3" htmlFor="sizes">
-                      Sizes
-                    </Label>
-                    <Col lg="9">
-                      <Row>
-                        <Col sm="6">
-                          <InputGroup>
-                            <Input
-                              type="number"
-                              min="0"
-                              step=".25"
-                              name="size1L"
-                              value={formState.size1L}
-                              onChange={onFormChange}
-                            />
-                            <InputGroupAddon addonType="append">
-                              <InputGroupText>x</InputGroupText>
-                            </InputGroupAddon>
-                            <Input
-                              type="number"
-                              min="0"
-                              step=".25"
-                              name="size1W"
-                              value={formState.size1W}
-                              onChange={onFormChange}
-                            />
-                          </InputGroup>
-                        </Col>
-                        <Col sm="6">
-                          <InputGroup>
-                            <Input
-                              type="number"
-                              min="0"
-                              step=".25"
-                              name="size2L"
-                              value={formState.size2L}
-                              onChange={onFormChange}
-                            />
-                            <InputGroupAddon addonType="append">
-                              <InputGroupText>x</InputGroupText>
-                            </InputGroupAddon>
-                            <Input
-                              type="number"
-                              min="0"
-                              step=".25"
-                              name="size2W"
-                              value={formState.size2W}
-                              onChange={onFormChange}
-                            />
-                          </InputGroup>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </FormGroup>
-                )}
+                <FormGroup row>
+                  <Label lg="3" htmlFor="sizes">
+                    Sizes
+                  </Label>
+                  <Col lg="9">
+                    <Row>
+                      <Col sm="6">
+                        <InputGroup>
+                          <Input
+                            type="number"
+                            min="0"
+                            step=".25"
+                            name="size1L"
+                            value={formState.size1L}
+                            onChange={onFormChange}
+                          />
+                          <InputGroupAddon addonType="append">
+                            <InputGroupText>x</InputGroupText>
+                          </InputGroupAddon>
+                          <Input
+                            type="number"
+                            min="0"
+                            step=".25"
+                            name="size1W"
+                            value={formState.size1W}
+                            onChange={onFormChange}
+                          />
+                        </InputGroup>
+                      </Col>
+                      <Col sm="6">
+                        <InputGroup>
+                          <Input
+                            type="number"
+                            min="0"
+                            step=".25"
+                            name="size2L"
+                            value={formState.size2L}
+                            onChange={onFormChange}
+                          />
+                          <InputGroupAddon addonType="append">
+                            <InputGroupText>x</InputGroupText>
+                          </InputGroupAddon>
+                          <Input
+                            type="number"
+                            min="0"
+                            step=".25"
+                            name="size2W"
+                            value={formState.size2W}
+                            onChange={onFormChange}
+                          />
+                        </InputGroup>
+                      </Col>
+                    </Row>
+                  </Col>
+                </FormGroup>
               </Col>
             </FormGroup>
           </React.Fragment>
 
           <hr />
-          <Button color="success" className="float-right" type="submit">
-            Confirm
+          <Button
+            color="secondary"
+            className="float-right"
+            type="submit"
+            disabled={isLoading}
+          >
+            {!isLoading ? (
+              'Confirm'
+            ) : (
+              <span
+                className="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+            )}
           </Button>
           <Button color="light" className="float-right mr-2" onClick={onCancel}>
             Cancel

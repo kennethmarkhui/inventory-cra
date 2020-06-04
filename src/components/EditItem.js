@@ -1,5 +1,5 @@
-import React, { useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useContext, useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
 import {
   Card,
   CardHeader,
@@ -24,39 +24,67 @@ import ItemsContext from '../context/items/itemsContext';
 const EditItem = (props) => {
   const itemsContext = useContext(ItemsContext);
 
-  const { isLoading, item, fetchItem } = itemsContext;
+  const { isLoading, item, fetchItem, clearItem } = itemsContext;
 
   const itemId = useParams().id;
-  // const [itemToEdit, setItemToEdit] = useState();
-  // const [isLoading, setIsLoading] = useState(false);
 
-  const onFormChange = (e) => {
-    // setItemToEdit({
-    //   ...itemToEdit,
-    //   [e.target.name]: e.target.value,
-    // });
-  };
-
-  // useEffect(() => {
-  //   const fetchItems = async () => {
-  //     setIsLoading(true);
-  //     const res = await axios.get(
-  //       `https://my.api.mockaroo.com/api/items/${itemId}?key=7d747620`
-  //     );
-  //     setItemToEdit(res.data);
-  //     setIsLoading(false);
-  //   };
-  //   fetchItems();
-  // }, [itemId]);
+  const history = useHistory();
 
   useEffect(() => {
     fetchItem(itemId);
     // eslint-disable-next-line
   }, [itemId]);
 
+  useEffect(() => {
+    if (item) {
+      setFormState({
+        category: item.category,
+        refId: item.refId,
+        storage: item.storage,
+        name: item.name,
+        country: item.location.country,
+        period: item.period,
+        size1L: item.sizes[0].len,
+        size1W: item.sizes[0].wid,
+        size2L: item.sizes[1].len,
+        size2W: item.sizes[1].wid,
+      });
+    }
+  }, [item]);
+
+  useEffect(() => {
+    // componentWillUnmount
+    return () => clearItem();
+    // eslint-disable-next-line
+  }, []);
+
+  const [formState, setFormState] = useState({
+    category: 'display-art',
+    refId: '',
+    storage: '',
+    name: '',
+    country: '',
+    period: '',
+    size1L: '',
+    size1W: '',
+    size2L: '',
+    size2W: '',
+  });
+
+  const onFormChange = (e) => {
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const onCancel = () => {
+    history.push('/');
+  };
+
   const onFormUpdateSubmit = (e) => {
     e.preventDefault();
-    console.log(item);
+    console.log(formState);
   };
 
   return (
@@ -79,7 +107,7 @@ const EditItem = (props) => {
                       onChange={onFormChange}
                       id="category"
                       name="category"
-                      value={item.category}
+                      value={formState.category}
                     >
                       <option value="display-art">Display Art</option>
                       <option value="scroll">Scroll</option>
@@ -92,14 +120,14 @@ const EditItem = (props) => {
 
                 <FormGroup row>
                   <Label lg="3" htmlFor="refId">
-                    Item ID
+                    Reference ID
                   </Label>
                   <Col lg="9">
                     <Input
                       type="text"
                       id="refId"
                       name="refId"
-                      value={item.refId}
+                      value={formState.refId}
                       onChange={onFormChange}
                     />
                   </Col>
@@ -114,7 +142,7 @@ const EditItem = (props) => {
                       type="text"
                       id="storage"
                       name="storage"
-                      value={item.storage}
+                      value={formState.storage}
                       onChange={onFormChange}
                     />
                   </Col>
@@ -129,117 +157,112 @@ const EditItem = (props) => {
                       type="text"
                       id="name"
                       name="name"
-                      value={item.name}
+                      value={formState.name}
                       onChange={onFormChange}
                     />
                   </Col>
                 </FormGroup>
 
                 <FormGroup row>
-                  <Label lg="3" htmlFor="location">
-                    Location
+                  <Label lg="3" htmlFor="country">
+                    Country
                   </Label>
                   <Col lg="9">
                     <Input
                       type="text"
-                      id="location"
-                      name="location"
-                      value={item.location.country}
+                      id="country"
+                      name="country"
+                      value={formState.country}
                       onChange={onFormChange}
                     />
                   </Col>
                 </FormGroup>
 
-                {item.category !== 'other' && (
-                  <FormGroup row>
-                    <Label lg="3" htmlFor="period">
-                      Period
-                    </Label>
-                    <Col lg="9">
-                      <Input
-                        type="text"
-                        id="period"
-                        name="period"
-                        value={item.period}
-                        onChange={onFormChange}
-                      />
-                    </Col>
-                  </FormGroup>
-                )}
+                <FormGroup row>
+                  <Label lg="3" htmlFor="period">
+                    Period
+                  </Label>
+                  <Col lg="9">
+                    <Input
+                      type="text"
+                      id="period"
+                      name="period"
+                      value={formState.period}
+                      onChange={onFormChange}
+                    />
+                  </Col>
+                </FormGroup>
 
-                {item.category === 'display-art' && (
-                  <FormGroup row>
-                    <Label lg="3" htmlFor="sizes">
-                      Sizes
-                    </Label>
-                    <Col lg="9">
-                      <Row>
-                        <Col sm="6">
-                          <InputGroup>
-                            <Input
-                              type="number"
-                              min="0"
-                              step=".25"
-                              name="size1L"
-                              value={item.size[0].len}
-                              onChange={onFormChange}
-                            />
-                            <InputGroupAddon addonType="append">
-                              <InputGroupText>x</InputGroupText>
-                            </InputGroupAddon>
-                            <Input
-                              type="number"
-                              min="0"
-                              step=".25"
-                              name="size1W"
-                              value={item.size[0].wid}
-                              onChange={onFormChange}
-                            />
-                          </InputGroup>
-                        </Col>
-                        <Col sm="6">
-                          <InputGroup>
-                            <Input
-                              type="number"
-                              min="0"
-                              step=".25"
-                              name="size2L"
-                              value={item.size[1].len}
-                              onChange={onFormChange}
-                            />
-                            <InputGroupAddon addonType="append">
-                              <InputGroupText>x</InputGroupText>
-                            </InputGroupAddon>
-                            <Input
-                              type="number"
-                              min="0"
-                              step=".25"
-                              name="size2W"
-                              value={item.size[1].wid}
-                              onChange={onFormChange}
-                            />
-                          </InputGroup>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </FormGroup>
-                )}
+                <FormGroup row>
+                  <Label lg="3" htmlFor="sizes">
+                    Sizes
+                  </Label>
+                  <Col lg="9">
+                    <Row>
+                      <Col sm="6">
+                        <InputGroup>
+                          <Input
+                            type="number"
+                            min="0"
+                            step=".25"
+                            name="size1L"
+                            value={formState.size1L}
+                            onChange={onFormChange}
+                          />
+                          <InputGroupAddon addonType="append">
+                            <InputGroupText>x</InputGroupText>
+                          </InputGroupAddon>
+                          <Input
+                            type="number"
+                            min="0"
+                            step=".25"
+                            name="size1W"
+                            value={formState.size1W}
+                            onChange={onFormChange}
+                          />
+                        </InputGroup>
+                      </Col>
+                      <Col sm="6">
+                        <InputGroup>
+                          <Input
+                            type="number"
+                            min="0"
+                            step=".25"
+                            name="size2L"
+                            value={formState.size2L}
+                            onChange={onFormChange}
+                          />
+                          <InputGroupAddon addonType="append">
+                            <InputGroupText>x</InputGroupText>
+                          </InputGroupAddon>
+                          <Input
+                            type="number"
+                            min="0"
+                            step=".25"
+                            name="size2W"
+                            value={formState.size2W}
+                            onChange={onFormChange}
+                          />
+                        </InputGroup>
+                      </Col>
+                    </Row>
+                  </Col>
+                </FormGroup>
+
                 <hr />
                 <Button color="success" className="float-right" type="submit">
                   Confirm
                 </Button>
-                <Button color="light" className="float-right mr-2">
+                <Button
+                  color="light"
+                  className="float-right mr-2"
+                  onClick={onCancel}
+                >
                   Cancel
                 </Button>
               </Form>
             </CardBody>
           </Card>
-          <p>{item.refId}</p>
-          <p>{item.storage}</p>
-          <p>{item.name}</p>
-          <p>{item.category}</p>
-          <p>{item.location.country}</p>
-          <p>{item.period}</p>
         </React.Fragment>
       )}
     </React.Fragment>
