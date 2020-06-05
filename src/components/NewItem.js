@@ -55,10 +55,11 @@ const NewItem = (props) => {
     console.log(formState);
     try {
       await addItem(formState);
-      history.push('/');
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      return;
     }
+    history.push('/');
   };
 
   return (
