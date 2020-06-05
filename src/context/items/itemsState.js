@@ -68,10 +68,7 @@ const ItemsState = (props) => {
       );
       dispatch({ type: ADD_ITEM, payload: res.data });
     } catch (error) {
-      // console.log(errors);
-      let errors = [];
-      error.response.data.errors.map((err) => errors.push(err.msg));
-      setError(errors);
+      setError(error.response.data.msg);
     }
   };
 
