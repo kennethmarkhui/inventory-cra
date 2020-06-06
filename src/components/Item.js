@@ -76,27 +76,22 @@ const Item = (props) => {
                   </dd>
                 </Row>
                 <hr className="m-1" />
-                <Row className="text-center" style={{ fontSize: '.9rem' }}>
-                  <Col xs="12">
-                    <strong>Size</strong>
-                  </Col>
-                  <Col xs="6">
-                    <Row>
-                      <Col>
-                        {props.dummy.sizes[0].len || '-'}x
-                        {props.dummy.sizes[0].wid || '-'}
+                {props.dummy.sizes.length !== 0 && (
+                  <Row className="text-center" style={{ fontSize: '.9rem' }}>
+                    <Col xs="12">
+                      <strong>Size</strong>
+                    </Col>
+                    {props.dummy.sizes.map((size, index) => (
+                      <Col xs="6" key={index}>
+                        <Row>
+                          <Col>
+                            {size.len || '-'}x{size.wid || '-'}
+                          </Col>
+                        </Row>
                       </Col>
-                    </Row>
-                  </Col>
-                  <Col xs="6">
-                    <Row>
-                      <Col>
-                        {props.dummy.sizes[1].len || '-'}x
-                        {props.dummy.sizes[1].wid || '-'}
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
+                    ))}
+                  </Row>
+                )}
               </Col>
             </Row>
           </CardBody>

@@ -6,7 +6,10 @@ import Spinner from './Spinner';
 
 import ItemsContext from '../context/items/itemsContext';
 
+let renderCount = 0;
+
 const Items = (props) => {
+  renderCount++;
   const itemsContext = useContext(ItemsContext);
   const { isLoading, items, fetchItems, clearItems } = itemsContext;
 
@@ -37,6 +40,7 @@ const Items = (props) => {
           </Row>
         </React.Fragment>
       )}
+      Items Component Render Count: {renderCount}
     </React.Fragment>
   );
 };

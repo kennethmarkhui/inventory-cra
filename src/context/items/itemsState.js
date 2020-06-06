@@ -17,7 +17,7 @@ import {
 
 const ItemsState = (props) => {
   const initialState = {
-    items: null,
+    items: [],
     item: null,
     isLoading: false,
     error: null,
