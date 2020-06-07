@@ -77,12 +77,9 @@ const Item = (props) => {
                 </Row>
                 <hr className="m-1" />
                 {props.dummy.sizes.length !== 0 && (
-                  <Row className="text-center" style={{ fontSize: '.9rem' }}>
-                    <Col xs="12">
-                      <strong>Size</strong>
-                    </Col>
+                  <Row className="text-center">
                     {props.dummy.sizes.map((size, index) => (
-                      <Col xs="6" key={index}>
+                      <Col xs={12 / props.dummy.sizes.length} key={index}>
                         <Row>
                           <Col>
                             {size.len || '-'}x{size.wid || '-'}

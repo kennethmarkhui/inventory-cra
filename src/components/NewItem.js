@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Card,
@@ -16,7 +16,7 @@ import {
   Button,
   Badge,
 } from 'reactstrap';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ImageUpload from './ImageUpload';
@@ -31,35 +31,24 @@ const NewItem = () => {
   const itemsContext = useContext(ItemsContext);
   const { addItem, isLoading } = itemsContext;
 
-  const defaultValues = {
-    category: 'Display Art',
-    refId: '',
-    name: '',
-    storage: '',
-    location: {
-      country: '',
-      area: '',
+  const { register, control, errors, watch, handleSubmit } = useForm({
+    defaultValues: {
+      category: 'Display Art',
+      refId: '',
+      name: '',
+      storage: '',
+      location: {
+        country: '',
+        area: '',
+      },
+      period: '',
+      sizes: [],
     },
-    period: '',
-    sizes: [],
-  };
-
-  const {
-    register,
-    errors,
-    watch,
-    setValue,
-    getValues,
-    handleSubmit,
-  } = useForm({
-    defaultValues,
   });
 
+  const { fields, append, remove } = useFieldArray({ control, name: 'sizes' });
+
   const history = useHistory();
-
-  const [sizes, setSizes] = useState(defaultValues['sizes']);
-
-  useEffect(() => setValue('sizes', sizes), [setValue, sizes]);
 
   const onFormSubmit = async (data) => {
     // console.log(data);
@@ -116,7 +105,7 @@ const NewItem = () => {
                     })}
                     invalid={!!errors.refId}
                   />
-                  {errors.refId && (
+                  {errors.refId && errors.refId.type === 'required' && (
                     <FormFeedback>{errors.refId.message}</FormFeedback>
                   )}
                 </Col>
@@ -133,7 +122,7 @@ const NewItem = () => {
                     innerRef={register({ required: 'Name is required' })}
                     invalid={!!errors.name}
                   />
-                  {errors.name && (
+                  {errors.name && errors.name.type === 'required' && (
                     <FormFeedback>{errors.name.message}</FormFeedback>
                   )}
                 </Col>
@@ -150,7 +139,7 @@ const NewItem = () => {
                     innerRef={register({ required: 'Storage is required' })}
                     invalid={!!errors.storage}
                   />
-                  {errors.storage && (
+                  {errors.storage && errors.storage.type === 'required' && (
                     <FormFeedback>{errors.storage.message}</FormFeedback>
                   )}
                 </Col>
@@ -195,19 +184,20 @@ const NewItem = () => {
 
               <FormGroup row>
                 <Label lg="3" htmlFor="sizes">
-                  Sizes <Badge>{sizes.length}</Badge>
+                  Sizes <Badge>{fields.length}</Badge>
                 </Label>
                 <Col lg="9">
                   <Row>
-                    {sizes.map((size, index) => (
-                      <Col sm="6" key={index}>
+                    {fields.map((size, index) => (
+                      <Col sm="6" key={size.id}>
                         <InputGroup>
                           <Input
                             type="number"
-                            name={`sizes[${index}].len`}
                             min="0"
                             step=".25"
-                            innerRef={register}
+                            name={`sizes[${index}].len`}
+                            defaultValue={size.len}
+                            innerRef={register()}
                           />
                           <InputGroupAddon addonType="append">
                             <Button
@@ -215,34 +205,28 @@ const NewItem = () => {
                               outline
                               onClick={(e) => {
                                 e.preventDefault();
-                                const sizes = [...watch('sizes')];
-                                if (sizes.length === 0) {
-                                  return;
-                                }
-                                sizes.splice(index, 1);
-                                setSizes(sizes);
+                                remove(index);
                               }}
                             />
                           </InputGroupAddon>
                           <Input
                             type="number"
-                            name={`sizes[${index}].wid`}
                             min="0"
                             step=".25"
-                            innerRef={register}
+                            name={`sizes[${index}].wid`}
+                            defaultValue={size.wid}
+                            innerRef={register()}
                           />
                         </InputGroup>
                       </Col>
                     ))}
-                    {sizes.length < 2 && (
+                    {fields.length < 2 && (
                       <Col sm="6" className="text-center">
                         <Button
                           outline
                           onClick={(e) => {
                             e.preventDefault();
-                            const sizes = [...watch('sizes')];
-                            sizes.push({ len: '', wid: '' });
-                            setSizes(sizes);
+                            append({ len: '', wid: '' });
                           }}
                         >
                           <FontAwesomeIcon icon="plus" />
@@ -279,9 +263,8 @@ const NewItem = () => {
           </FormGroup>
         </Form>
       </CardBody>
-      <p>sizes array: {JSON.stringify(sizes)}</p>
+      <p>sizes array: {JSON.stringify(fields)}</p>
       <p>watch(): {JSON.stringify(watch({ nest: true }))}</p>
-      <p>getValues(): {JSON.stringify(getValues({ nest: true }))}</p>
       Test Component Render Count: {renderCount}
     </Card>
   );

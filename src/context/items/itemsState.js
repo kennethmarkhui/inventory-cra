@@ -35,8 +35,12 @@ const ItemsState = (props) => {
 
       dispatch({ type: FETCH_ITEMS, payload: res.data });
     } catch (error) {
-      // console.log(error.response);
-      setError(error.response.data.msg);
+      if (error.response) {
+        setError(error.response.data.msg);
+      } else {
+        setError(error.message);
+      }
+      console.log(error);
     }
   };
 
