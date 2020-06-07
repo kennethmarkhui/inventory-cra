@@ -52,8 +52,9 @@ const ItemsState = (props) => {
       const res = await axios.get(`http://localhost:5000/api/items/${id}`);
       dispatch({ type: FETCH_ITEM, payload: res.data });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setError(error.response.data.msg);
+      throw error;
     }
   };
 

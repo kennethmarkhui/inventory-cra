@@ -53,7 +53,14 @@ const EditItem = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    fetchItem(itemId);
+    const asyncFetchItem = async () => {
+      try {
+        await fetchItem(itemId);
+      } catch (error) {
+        history.push('/NotFound');
+      }
+    };
+    asyncFetchItem();
     // eslint-disable-next-line
   }, [itemId]);
 
