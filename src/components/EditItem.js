@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {
   Card,
@@ -8,24 +8,49 @@ import {
   FormGroup,
   Label,
   Input,
+  FormFeedback,
   InputGroup,
   InputGroupAddon,
-  InputGroupText,
   Col,
   Row,
   Button,
+  Badge,
 } from 'reactstrap';
+import { useForm, useFieldArray } from 'react-hook-form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Spinner from './Spinner';
 
 import ItemsContext from '../context/items/itemsContext';
 
-const EditItem = (props) => {
-  const itemsContext = useContext(ItemsContext);
+let renderCount = 0;
 
-  const { isLoading, item, fetchItem, clearItem } = itemsContext;
+const EditItem = (props) => {
+  renderCount++;
+
+  const itemsContext = useContext(ItemsContext);
+  const { isLoading, item, fetchItem, updateItem, clearItem } = itemsContext;
 
   const itemId = useParams().id;
+
+  const { register, control, errors, watch, setValue, handleSubmit } = useForm({
+    defaultValues: {
+      _id: '',
+      category: 'Display Art',
+      refId: '',
+      prevRefId: '',
+      name: '',
+      storage: '',
+      location: {
+        country: '',
+        area: '',
+      },
+      period: '',
+      sizes: [],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({ control, name: 'sizes' });
 
   const history = useHistory();
 
@@ -36,20 +61,21 @@ const EditItem = (props) => {
 
   useEffect(() => {
     if (item) {
-      setFormState({
-        category: item.category,
-        refId: item.refId,
-        storage: item.storage,
-        name: item.name,
-        country: item.location.country,
-        period: item.period,
-        size1L: item.sizes[0].len,
-        size1W: item.sizes[0].wid,
-        size2L: item.sizes[1].len,
-        size2W: item.sizes[1].wid,
-      });
+      setValue('_id', item._id);
+      setValue('category', item.category);
+      setValue('refId', item.refId);
+      setValue('prevRefId', item.refId);
+      setValue('name', item.name);
+      setValue('storage', item.storage);
+      setValue('location.country', item.location.country);
+      setValue('location.area', item.location.area);
+      setValue('period', item.period);
+      if (item.sizes.length !== 0) {
+        append(item.sizes);
+      }
+      // console.log(item);
     }
-  }, [item]);
+  }, [item, setValue, append]);
 
   useEffect(() => {
     // componentWillUnmount
@@ -57,33 +83,18 @@ const EditItem = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  const [formState, setFormState] = useState({
-    category: 'display-art',
-    refId: '',
-    storage: '',
-    name: '',
-    country: '',
-    period: '',
-    size1L: '',
-    size1W: '',
-    size2L: '',
-    size2W: '',
-  });
-
-  const onFormChange = (e) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const onCancel = () => {
     history.push('/');
   };
 
-  const onFormUpdateSubmit = (e) => {
-    e.preventDefault();
-    console.log(formState);
+  const onFormUpdateSubmit = async (data) => {
+    // console.log(data);
+    try {
+      await updateItem(data);
+    } catch (error) {
+      return;
+    }
+    history.push('/');
   };
 
   return (
@@ -94,7 +105,7 @@ const EditItem = (props) => {
           <Card>
             <CardHeader className="h6">Edit Item</CardHeader>
             <CardBody>
-              <Form onSubmit={onFormUpdateSubmit}>
+              <Form onSubmit={handleSubmit(onFormUpdateSubmit)}>
                 <FormGroup row>
                   <Label md="3" htmlFor="category">
                     Category
@@ -102,19 +113,34 @@ const EditItem = (props) => {
                   <Col md="9">
                     <Input
                       type="select"
-                      onChange={onFormChange}
                       id="category"
                       name="category"
-                      value={formState.category}
+                      innerRef={register}
                     >
-                      <option value="display-art">Display Art</option>
-                      <option value="scroll">Scroll</option>
-                      <option value="other">Other</option>
+                      <option>Display Art</option>
+                      <option>Scroll</option>
+                      <option>Others</option>
                     </Input>
                   </Col>
                 </FormGroup>
 
                 <hr />
+
+                <Input
+                  type="hidden"
+                  id="_id"
+                  name="_id"
+                  innerRef={register}
+                  readOnly
+                />
+
+                <Input
+                  type="hidden"
+                  id="prevRefId"
+                  name="prevRefId"
+                  innerRef={register}
+                  readOnly
+                />
 
                 <FormGroup row>
                   <Label lg="3" htmlFor="refId">
@@ -122,27 +148,16 @@ const EditItem = (props) => {
                   </Label>
                   <Col lg="9">
                     <Input
-                      type="text"
                       id="refId"
                       name="refId"
-                      value={formState.refId}
-                      onChange={onFormChange}
+                      innerRef={register({
+                        required: 'Reference ID is required',
+                      })}
+                      invalid={!!errors.refId}
                     />
-                  </Col>
-                </FormGroup>
-
-                <FormGroup row>
-                  <Label lg="3" htmlFor="storage">
-                    Storage
-                  </Label>
-                  <Col lg="9">
-                    <Input
-                      type="text"
-                      id="storage"
-                      name="storage"
-                      value={formState.storage}
-                      onChange={onFormChange}
-                    />
+                    {errors.refId && errors.refId.type === 'required' && (
+                      <FormFeedback>{errors.refId.message}</FormFeedback>
+                    )}
                   </Col>
                 </FormGroup>
 
@@ -152,12 +167,31 @@ const EditItem = (props) => {
                   </Label>
                   <Col lg="9">
                     <Input
-                      type="text"
                       id="name"
                       name="name"
-                      value={formState.name}
-                      onChange={onFormChange}
+                      innerRef={register({ required: 'Name is required' })}
+                      invalid={!!errors.name}
                     />
+                    {errors.name && errors.name.type === 'required' && (
+                      <FormFeedback>{errors.name.message}</FormFeedback>
+                    )}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row>
+                  <Label lg="3" htmlFor="storage">
+                    Storage
+                  </Label>
+                  <Col lg="9">
+                    <Input
+                      id="storage"
+                      name="storage"
+                      innerRef={register({ required: 'Storage is required' })}
+                      invalid={!!errors.storage}
+                    />
+                    {errors.storage && errors.storage.type === 'required' && (
+                      <FormFeedback>{errors.storage.message}</FormFeedback>
+                    )}
                   </Col>
                 </FormGroup>
 
@@ -167,12 +201,25 @@ const EditItem = (props) => {
                   </Label>
                   <Col lg="9">
                     <Input
-                      type="text"
                       id="country"
-                      name="country"
-                      value={formState.country}
-                      onChange={onFormChange}
+                      name="location.country"
+                      innerRef={register({ required: 'Country is required' })}
+                      invalid={!!errors.location && !!errors.location.country}
                     />
+                    {errors.location && errors.location.country && (
+                      <FormFeedback>
+                        {errors.location.country.message}
+                      </FormFeedback>
+                    )}
+                  </Col>
+                </FormGroup>
+
+                <FormGroup row>
+                  <Label lg="3" htmlFor="area">
+                    Area
+                  </Label>
+                  <Col lg="9">
+                    <Input id="area" name="location.area" innerRef={register} />
                   </Col>
                 </FormGroup>
 
@@ -181,75 +228,75 @@ const EditItem = (props) => {
                     Period
                   </Label>
                   <Col lg="9">
-                    <Input
-                      type="text"
-                      id="period"
-                      name="period"
-                      value={formState.period}
-                      onChange={onFormChange}
-                    />
+                    <Input id="period" name="period" innerRef={register} />
                   </Col>
                 </FormGroup>
 
                 <FormGroup row>
                   <Label lg="3" htmlFor="sizes">
-                    Sizes
+                    Sizes <Badge>{fields.length}</Badge>
                   </Label>
                   <Col lg="9">
                     <Row>
-                      <Col sm="6">
-                        <InputGroup>
-                          <Input
-                            type="number"
-                            min="0"
-                            step=".25"
-                            name="size1L"
-                            value={formState.size1L}
-                            onChange={onFormChange}
-                          />
-                          <InputGroupAddon addonType="append">
-                            <InputGroupText>x</InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            type="number"
-                            min="0"
-                            step=".25"
-                            name="size1W"
-                            value={formState.size1W}
-                            onChange={onFormChange}
-                          />
-                        </InputGroup>
-                      </Col>
-                      <Col sm="6">
-                        <InputGroup>
-                          <Input
-                            type="number"
-                            min="0"
-                            step=".25"
-                            name="size2L"
-                            value={formState.size2L}
-                            onChange={onFormChange}
-                          />
-                          <InputGroupAddon addonType="append">
-                            <InputGroupText>x</InputGroupText>
-                          </InputGroupAddon>
-                          <Input
-                            type="number"
-                            min="0"
-                            step=".25"
-                            name="size2W"
-                            value={formState.size2W}
-                            onChange={onFormChange}
-                          />
-                        </InputGroup>
-                      </Col>
+                      {fields.map((size, index) => (
+                        <Col sm="6" key={size.id}>
+                          <InputGroup>
+                            <Input
+                              type="number"
+                              min="0"
+                              step=".25"
+                              name={`sizes[${index}].len`}
+                              defaultValue={size.len}
+                              innerRef={register()}
+                            />
+                            <InputGroupAddon addonType="append">
+                              <Button
+                                close
+                                outline
+                                onClick={() => {
+                                  remove(index);
+                                }}
+                              />
+                            </InputGroupAddon>
+                            <Input
+                              type="number"
+                              min="0"
+                              step=".25"
+                              name={`sizes[${index}].wid`}
+                              defaultValue={size.wid}
+                              innerRef={register()}
+                            />
+                          </InputGroup>
+                        </Col>
+                      ))}
+                      {fields.length < 2 && (
+                        <Col sm="6" className="text-center">
+                          <Button
+                            outline
+                            onClick={() => {
+                              append({ len: '', wid: '' });
+                            }}
+                          >
+                            <FontAwesomeIcon icon="plus" />
+                          </Button>
+                        </Col>
+                      )}
                     </Row>
                   </Col>
                 </FormGroup>
 
                 <hr />
-                <Button color="success" className="float-right" type="submit">
-                  Confirm
+
+                <Button className="float-right" disabled={isLoading}>
+                  {!isLoading ? (
+                    'Confirm'
+                  ) : (
+                    <span
+                      className="spinner-border spinner-border-sm"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                  )}
                 </Button>
                 <Button
                   color="light"
@@ -260,6 +307,8 @@ const EditItem = (props) => {
                 </Button>
               </Form>
             </CardBody>
+            <p>watch(): {JSON.stringify(watch({ nest: true }))}</p>
+            Test Component Render Count: {renderCount}
           </Card>
         </React.Fragment>
       )}

@@ -47,7 +47,7 @@ const Item = (props) => {
                   <FontAwesomeIcon icon="times" color="black" />
                 </NavLink>
                 <NavLink
-                  to={`/edit/${props.dummy.refId}`}
+                  to={`/edit/${props.dummy._id}`}
                   className="float-right mr-3"
                 >
                   <FontAwesomeIcon icon="pen" color="black" />
@@ -76,7 +76,7 @@ const Item = (props) => {
                   </dd>
                 </Row>
                 <hr className="m-1" />
-                {props.dummy.sizes.length !== 0 && (
+                {props.dummy.sizes && props.dummy.sizes.length !== 0 && (
                   <Row className="text-center">
                     {props.dummy.sizes.map((size, index) => (
                       <Col xs={12 / props.dummy.sizes.length} key={index}>

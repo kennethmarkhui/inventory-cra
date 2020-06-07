@@ -203,8 +203,7 @@ const NewItem = () => {
                             <Button
                               close
                               outline
-                              onClick={(e) => {
-                                e.preventDefault();
+                              onClick={() => {
                                 remove(index);
                               }}
                             />
@@ -224,8 +223,7 @@ const NewItem = () => {
                       <Col sm="6" className="text-center">
                         <Button
                           outline
-                          onClick={(e) => {
-                            e.preventDefault();
+                          onClick={() => {
                             append({ len: '', wid: '' });
                           }}
                         >

@@ -9,10 +9,11 @@ import {
   CLEAR_ITEMS,
   CLEAR_ITEM,
   ADD_ITEM,
+  UPDATE_ITEM,
+  DELETE_ITEM,
   SET_ISLOADING,
   SET_ERROR,
   CLEAR_ERROR,
-  DELETE_ITEM,
 } from '../actionTypes';
 
 const ItemsState = (props) => {
@@ -45,10 +46,10 @@ const ItemsState = (props) => {
   };
 
   //   FETCH_ITEM by refId
-  const fetchItem = async (refId) => {
+  const fetchItem = async (id) => {
     try {
       setIsLoading();
-      const res = await axios.get(`http://localhost:5000/api/items/${refId}`);
+      const res = await axios.get(`http://localhost:5000/api/items/${id}`);
       dispatch({ type: FETCH_ITEM, payload: res.data });
     } catch (error) {
       console.log(error);
@@ -71,6 +72,27 @@ const ItemsState = (props) => {
         config
       );
       dispatch({ type: ADD_ITEM, payload: res.data });
+    } catch (error) {
+      setError(error.response.data.msg);
+      throw error;
+    }
+  };
+
+  //   UPDATE_ITEM
+  const updateItem = async (item) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      setIsLoading();
+      const res = await axios.patch(
+        `http://localhost:5000/api/items/${item._id}`,
+        item,
+        config
+      );
+      dispatch({ type: UPDATE_ITEM, payload: res.data });
     } catch (error) {
       setError(error.response.data.msg);
       throw error;
@@ -116,6 +138,7 @@ const ItemsState = (props) => {
         clearItems,
         clearItem,
         addItem,
+        updateItem,
         deleteItem,
         clearError,
       }}

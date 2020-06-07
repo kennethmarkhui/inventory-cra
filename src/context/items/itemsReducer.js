@@ -4,6 +4,7 @@ import {
   CLEAR_ITEMS,
   CLEAR_ITEM,
   ADD_ITEM,
+  UPDATE_ITEM,
   DELETE_ITEM,
   SET_ISLOADING,
   SET_ERROR,
@@ -32,6 +33,14 @@ export default (state, action) => {
       return {
         ...state,
         items: [...state.items, action.payload],
+        isLoading: false,
+      };
+    case UPDATE_ITEM:
+      return {
+        ...state,
+        items: state.items.map((item) =>
+          item._id === action.payload._id ? action.payload : item
+        ),
         isLoading: false,
       };
     case DELETE_ITEM:
