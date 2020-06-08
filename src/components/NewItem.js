@@ -33,8 +33,9 @@ const NewItem = () => {
 
   const { register, control, errors, watch, handleSubmit } = useForm({
     defaultValues: {
-      category: 'Display Art',
       refId: '',
+      image: null,
+      category: 'Display Art',
       name: '',
       storage: '',
       location: {
@@ -52,8 +53,18 @@ const NewItem = () => {
 
   const onFormSubmit = async (data) => {
     // console.log(data);
+    const formData = new FormData();
+    formData.append('refId', data.refId);
+    formData.append('image', data.image[0]);
+    formData.append('category', data.category);
+    formData.append('name', data.name);
+    formData.append('storage', data.storage);
+    formData.append('location', JSON.stringify(data.location));
+    formData.append('period', data.period);
+    formData.append('sizes', JSON.stringify(data.sizes || []));
     try {
-      await addItem(data);
+      // await addItem(data);
+      await addItem(formData);
     } catch (error) {
       // console.log(error);
       return;
@@ -89,7 +100,19 @@ const NewItem = () => {
 
           <FormGroup row>
             <Col lg="3">
-              <ImageUpload id="image" />
+              <ImageUpload id="image" /> {/* ImageUpload NOT WORKING */}
+              <Input
+                type="file"
+                name="image"
+                accept=".jpg,.png,.jpeg"
+                innerRef={register({
+                  required: 'Image is required',
+                })}
+                invalid={!!errors.image}
+              />
+              {errors.image && errors.image.type === 'required' && (
+                <FormFeedback>{errors.image.message}</FormFeedback>
+              )}
             </Col>
             <Col lg="9">
               <FormGroup row>

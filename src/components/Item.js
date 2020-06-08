@@ -26,7 +26,8 @@ const Item = (props) => {
       <ImageModal
         toggle={toggleImageModal}
         show={showImageModal}
-        image={props.dummy.image}
+        image={`http://localhost:5000/${props.dummy.image}`}
+        // image={props.dummy.image}
       />
       <Col lg="6" className="mb-3">
         <Card>
@@ -36,7 +37,8 @@ const Item = (props) => {
                 <div className="img-container embed-responsive">
                   <img
                     className="embed-responsive-item img-fit"
-                    src={props.dummy.image}
+                    src={`http://localhost:5000/${props.dummy.image}`}
+                    // src={props.dummy.image}
                     alt={props.dummy.name}
                     onClick={toggleImageModal}
                   />
