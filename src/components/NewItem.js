@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardHeader,
   CardBody,
+  CardImg,
   Form,
   FormGroup,
   Label,
@@ -19,8 +20,6 @@ import {
 import { useForm, useFieldArray } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import ImageUpload from './ImageUpload';
-
 import ItemsContext from '../context/items/itemsContext';
 
 let renderCount = 0;
@@ -30,6 +29,8 @@ const NewItem = () => {
 
   const itemsContext = useContext(ItemsContext);
   const { addItem, isLoading } = itemsContext;
+
+  const [preview, setPreview] = useState();
 
   const { register, control, errors, watch, handleSubmit } = useForm({
     defaultValues: {
@@ -73,6 +74,13 @@ const NewItem = () => {
   };
   // console.log(errors);
 
+  const previewImageHandler = (e) => {
+    let file = e.target.files[0];
+    if (e.target.files && e.target.files.length === 1) {
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
   return (
     <Card>
       <CardHeader className="h6">Add new Item</CardHeader>
@@ -100,19 +108,52 @@ const NewItem = () => {
 
           <FormGroup row>
             <Col lg="3">
-              <ImageUpload id="image" /> {/* ImageUpload NOT WORKING */}
-              <Input
-                type="file"
-                name="image"
-                accept=".jpg,.png,.jpeg"
-                innerRef={register({
-                  required: 'Image is required',
-                })}
-                invalid={!!errors.image}
-              />
-              {errors.image && errors.image.type === 'required' && (
-                <FormFeedback>{errors.image.message}</FormFeedback>
-              )}
+              <div className="d-flex justify-content-center align-items-center flex-column">
+                <Label htmlFor="image">
+                  <Card
+                    outline={errors.image && errors.image.type === 'required'}
+                    color={
+                      errors.image &&
+                      errors.image.type === 'required' &&
+                      'danger'
+                    }
+                    className="mb-3 justify-content-center align-items-center "
+                    style={{ width: '13rem', height: '13rem' }}
+                  >
+                    {preview && (
+                      <CardImg
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                        }}
+                        src={preview}
+                        alt="Preview"
+                      />
+                    )}
+                    {!preview && (
+                      <FontAwesomeIcon icon="file-image" size="9x" />
+                    )}
+                  </Card>
+                </Label>
+                <Input
+                  type="file"
+                  id="image"
+                  name="image"
+                  style={{ display: 'none' }}
+                  accept=".jpg,.png,.jpeg"
+                  innerRef={register({
+                    required: 'Image is required',
+                  })}
+                  invalid={!!errors.image}
+                  onChange={previewImageHandler}
+                />
+                {errors.image && errors.image.type === 'required' && (
+                  <FormFeedback className="text-center">
+                    {errors.image.message}
+                  </FormFeedback>
+                )}
+              </div>
             </Col>
             <Col lg="9">
               <FormGroup row>

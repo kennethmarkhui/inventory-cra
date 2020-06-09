@@ -7,6 +7,7 @@ import {
   faPlus,
   faAngleDoubleLeft,
   faAngleDoubleRight,
+  faFileImage,
 } from '@fortawesome/free-solid-svg-icons';
 import { Container } from 'reactstrap';
 
@@ -23,7 +24,14 @@ import ItemsState from './context/items/itemsState';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-library.add(faPen, faTimes, faPlus, faAngleDoubleLeft, faAngleDoubleRight);
+library.add(
+  faPen,
+  faTimes,
+  faPlus,
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
+  faFileImage
+);
 
 const App = (props) => {
   return (
