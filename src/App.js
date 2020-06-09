@@ -8,6 +8,7 @@ import {
   faAngleDoubleLeft,
   faAngleDoubleRight,
   faFileImage,
+  faUndo,
 } from '@fortawesome/free-solid-svg-icons';
 import { Container } from 'reactstrap';
 
@@ -30,7 +31,8 @@ library.add(
   faPlus,
   faAngleDoubleLeft,
   faAngleDoubleRight,
-  faFileImage
+  faFileImage,
+  faUndo
 );
 
 const App = (props) => {

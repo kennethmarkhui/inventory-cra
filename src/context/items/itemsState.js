@@ -82,15 +82,17 @@ const ItemsState = (props) => {
 
   //   UPDATE_ITEM
   const updateItem = async (item) => {
+    // console.log(item.get('_id'));
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
       },
     };
     try {
       setIsLoading();
       const res = await axios.patch(
-        `http://localhost:5000/api/items/${item._id}`,
+        `http://localhost:5000/api/items/${item.get('_id')}`,
         item,
         config
       );

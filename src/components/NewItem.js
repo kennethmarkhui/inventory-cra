@@ -155,6 +155,7 @@ const NewItem = () => {
                 )}
               </div>
             </Col>
+
             <Col lg="9">
               <FormGroup row>
                 <Label lg="3" htmlFor="refId">
@@ -327,7 +328,7 @@ const NewItem = () => {
       </CardBody>
       <p>sizes array: {JSON.stringify(fields)}</p>
       <p>watch(): {JSON.stringify(watch({ nest: true }))}</p>
-      Test Component Render Count: {renderCount}
+      NewItem Component Render Count: {renderCount}
     </Card>
   );
 };
