@@ -1,28 +1,45 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  Pagination as ReactstrapPagination,
+  PaginationItem,
+  PaginationLink,
+} from 'reactstrap';
 
-const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
-    pageNumbers.push(i);
-  }
+const Pagination = ({ pagination, paginationHandler }) => {
   return (
-    <nav>
-      <ul className="pagination justify-content-center">
-        {pageNumbers.map((number) => (
-          <li key={number} className="page-item">
-            <NavLink
-              to={`/page/${number}`}
-              onClick={() => paginate(number)}
-              className="page-link"
-            >
-              {number}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <ReactstrapPagination listClassName="justify-content-center">
+      <PaginationItem disabled={pagination.currentPage === 1}>
+        <PaginationLink
+          first
+          value={pagination.firstPage}
+          onClick={paginationHandler}
+        />
+      </PaginationItem>
+      <PaginationItem disabled={!pagination.hasPreviousPage}>
+        <PaginationLink
+          previous
+          value={pagination.previousPage}
+          onClick={paginationHandler}
+        />
+      </PaginationItem>
+      <PaginationItem active>
+        <PaginationLink disabled>{pagination.currentPage}</PaginationLink>
+      </PaginationItem>
+      <PaginationItem disabled={!pagination.hasNextPage}>
+        <PaginationLink
+          next
+          value={pagination.nextPage}
+          onClick={paginationHandler}
+        />
+      </PaginationItem>
+      <PaginationItem disabled={pagination.lastPage === pagination.currentPage}>
+        <PaginationLink
+          last
+          value={pagination.lastPage}
+          onClick={paginationHandler}
+        />
+      </PaginationItem>
+    </ReactstrapPagination>
   );
 };
 
