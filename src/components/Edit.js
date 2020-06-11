@@ -24,7 +24,7 @@ import ItemsContext from '../context/items/itemsContext';
 
 let renderCount = 0;
 
-const EditItem = (props) => {
+const Edit = (props) => {
   renderCount++;
 
   const itemsContext = useContext(ItemsContext);
@@ -404,11 +404,11 @@ const EditItem = (props) => {
             </Form>
           </CardBody>
           <p>watch(): {JSON.stringify(watch({ nest: true }))}</p>
-          Test Component Render Count: {renderCount}
+          Edit Component Render Count: {renderCount}
         </Card>
       </React.Fragment>
     </React.Fragment>
   );
 };
 
-export default EditItem;
+export default Edit;

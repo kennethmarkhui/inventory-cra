@@ -24,7 +24,7 @@ import ItemsContext from '../context/items/itemsContext';
 
 let renderCount = 0;
 
-const NewItem = () => {
+const New = () => {
   renderCount++;
 
   const itemsContext = useContext(ItemsContext);
@@ -328,9 +328,9 @@ const NewItem = () => {
       </CardBody>
       <p>sizes array: {JSON.stringify(fields)}</p>
       <p>watch(): {JSON.stringify(watch({ nest: true }))}</p>
-      NewItem Component Render Count: {renderCount}
+      New Component Render Count: {renderCount}
     </Card>
   );
 };
 
-export default NewItem;
+export default New;

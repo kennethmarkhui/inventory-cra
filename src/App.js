@@ -13,9 +13,9 @@ import {
 import { Container } from 'reactstrap';
 
 import Navigation from './components/Navigation';
-import Items from './components/Items';
-import NewItem from './components/NewItem';
-import EditItem from './components/EditItem';
+import Home from './components/Home';
+import New from './components/New';
+import Edit from './components/Edit';
 import NotFound from './components/NotFound';
 import Footer from './components/Footer';
 import ErrorModal from './components/ErrorModal';
@@ -43,10 +43,10 @@ const App = (props) => {
         <Navigation />
         <Container>
           <Switch>
-            <Route path="/" exact component={Items} />
-            <Route path="/page/:pageNumber" exact component={Items} />
-            <Route path="/new" exact component={NewItem} />
-            <Route path="/edit/:id" exact component={EditItem} />
+            <Route path="/" exact component={Home} />
+            {/* <Route path="/page/:pageNumber" exact component={Items} /> */}
+            <Route path="/new" exact component={New} />
+            <Route path="/edit/:id" exact component={Edit} />
             <Route path="/NotFound" component={NotFound} />
             <Redirect to="/NotFound" />
           </Switch>
