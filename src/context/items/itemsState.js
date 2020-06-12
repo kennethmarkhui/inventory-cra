@@ -30,13 +30,13 @@ const ItemsState = (props) => {
   const [state, dispatch] = useReducer(ItemsReducer, initialState);
 
   //   FETCH_ITEMS
-  const fetchItems = async (pageNumber) => {
+  const fetchItems = async (seachParams) => {
     try {
       setIsLoading();
       // 'http://jsonplaceholder.typicode.com/photos?_limit=100'
       // 'https://my.api.mockaroo.com/api/items?key=7d747620'
       const res = await axios.get(
-        `http://localhost:5000/api/items/?page=${pageNumber}`
+        `http://localhost:5000/api/items/?${seachParams}`
       );
 
       dispatch({ type: FETCH_ITEMS, payload: res.data });

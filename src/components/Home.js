@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Spinner from './Spinner';
 import Items from './Items';
@@ -10,6 +11,10 @@ let renderCount = 0;
 
 const Home = () => {
   renderCount++;
+
+  const history = useHistory();
+  let searchParams = new URLSearchParams(history.location.search);
+
   const itemsContext = useContext(ItemsContext);
   const {
     isLoading,
@@ -22,7 +27,7 @@ const Home = () => {
   } = itemsContext;
 
   useEffect(() => {
-    fetchItems(pageNumber);
+    fetchItems(searchParams.toString());
     // eslint-disable-next-line
   }, [pageNumber]);
 
@@ -34,6 +39,9 @@ const Home = () => {
 
   const paginationHandler = (e) => {
     // console.log(e.currentTarget.value);
+    searchParams.set('page', e.currentTarget.value);
+    history.push(history.location.pathname + '?' + searchParams.toString());
+
     setPage(e.currentTarget.value);
   };
 
