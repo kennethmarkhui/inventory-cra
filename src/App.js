@@ -44,7 +44,6 @@ const App = (props) => {
         <Container>
           <Switch>
             <Route path="/" exact component={Home} />
-            {/* <Route path="/page/:pageNumber" exact component={Items} /> */}
             <Route path="/new" exact component={New} />
             <Route path="/edit/:id" exact component={Edit} />
             <Route path="/NotFound" component={NotFound} />

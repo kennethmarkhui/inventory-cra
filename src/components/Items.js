@@ -5,17 +5,11 @@ import Item from './Item';
 
 const Items = ({ items }) => {
   return (
-    <React.Fragment>
-      <Row>
-        {items.length === 0 ? (
-          <h2>No Items</h2>
-        ) : (
-          items.map((item) => {
-            return <Item dummy={item} key={item._id} />;
-          })
-        )}
-      </Row>
-    </React.Fragment>
+    <Row>
+      {items.map((item) => {
+        return <Item dummy={item} key={item._id} />;
+      })}
+    </Row>
   );
 };
 

@@ -95,10 +95,6 @@ const Edit = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  const onCancel = () => {
-    history.push('/');
-  };
-
   const onFormUpdateSubmit = async (data) => {
     // console.log(data);
     const formData = new FormData();
@@ -119,7 +115,7 @@ const Edit = (props) => {
     } catch (error) {
       return;
     }
-    history.push('/');
+    history.goBack();
   };
 
   const previewImageHandler = (e) => {
@@ -396,7 +392,7 @@ const Edit = (props) => {
                 <Button
                   color="light"
                   className="float-right mr-2"
-                  onClick={onCancel}
+                  onClick={() => history.goBack()}
                 >
                   Cancel
                 </Button>

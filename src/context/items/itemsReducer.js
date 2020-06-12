@@ -9,7 +9,6 @@ import {
   SET_ISLOADING,
   SET_ERROR,
   CLEAR_ERROR,
-  SET_PAGE,
 } from '../actionTypes';
 
 export default (state, action) => {
@@ -56,8 +55,6 @@ export default (state, action) => {
       return { ...state, error: action.payload, isLoading: false };
     case CLEAR_ERROR:
       return { ...state, error: null };
-    case SET_PAGE:
-      return { ...state, pageNumber: action.payload };
     default:
       return state;
   }

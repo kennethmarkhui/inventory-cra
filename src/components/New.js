@@ -70,7 +70,7 @@ const New = () => {
       // console.log(error);
       return;
     }
-    history.push('/');
+    history.goBack();
   };
   // console.log(errors);
 
@@ -319,7 +319,7 @@ const New = () => {
             <Button
               color="light"
               className="float-right mr-2"
-              onClick={() => history.push('/')}
+              onClick={() => history.goBack()}
             >
               Cancel
             </Button>

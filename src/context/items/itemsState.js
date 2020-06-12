@@ -14,7 +14,6 @@ import {
   SET_ISLOADING,
   SET_ERROR,
   CLEAR_ERROR,
-  SET_PAGE,
 } from '../actionTypes';
 
 const ItemsState = (props) => {
@@ -23,21 +22,18 @@ const ItemsState = (props) => {
     item: null,
     isLoading: false,
     error: null,
-    pageNumber: null,
     pagination: null,
   };
 
   const [state, dispatch] = useReducer(ItemsReducer, initialState);
 
   //   FETCH_ITEMS
-  const fetchItems = async (seachParams) => {
+  const fetchItems = async (query) => {
     try {
       setIsLoading();
       // 'http://jsonplaceholder.typicode.com/photos?_limit=100'
       // 'https://my.api.mockaroo.com/api/items?key=7d747620'
-      const res = await axios.get(
-        `http://localhost:5000/api/items/?${seachParams}`
-      );
+      const res = await axios.get(`http://localhost:5000/api/items/?${query}`);
 
       dispatch({ type: FETCH_ITEMS, payload: res.data });
     } catch (error) {
@@ -133,9 +129,6 @@ const ItemsState = (props) => {
   //   CLEAR_ERROR
   const clearError = () => dispatch({ type: CLEAR_ERROR });
 
-  // SET_PAGE
-  const setPage = (page) => dispatch({ type: SET_PAGE, payload: +page });
-
   return (
     <ItemsContext.Provider
       value={{
@@ -143,7 +136,6 @@ const ItemsState = (props) => {
         item: state.item,
         isLoading: state.isLoading,
         error: state.error,
-        pageNumber: state.pageNumber,
         pagination: state.pagination,
         fetchItems,
         fetchItem,
@@ -153,7 +145,6 @@ const ItemsState = (props) => {
         updateItem,
         deleteItem,
         clearError,
-        setPage,
       }}
     >
       {props.children}

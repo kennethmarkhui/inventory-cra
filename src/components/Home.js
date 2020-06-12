@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Col, Alert } from 'reactstrap';
 
 import Spinner from './Spinner';
 import Items from './Items';
@@ -13,23 +14,15 @@ const Home = () => {
   renderCount++;
 
   const history = useHistory();
-  let searchParams = new URLSearchParams(history.location.search);
+  const searchParams = new URLSearchParams(history.location.search);
 
   const itemsContext = useContext(ItemsContext);
-  const {
-    isLoading,
-    items,
-    fetchItems,
-    clearItems,
-    pageNumber,
-    setPage,
-    pagination,
-  } = itemsContext;
+  const { isLoading, items, fetchItems, clearItems, pagination } = itemsContext;
 
   useEffect(() => {
     fetchItems(searchParams.toString());
     // eslint-disable-next-line
-  }, [pageNumber]);
+  }, [history.location.search]);
 
   useEffect(() => {
     // componentWillUnmount
@@ -41,8 +34,6 @@ const Home = () => {
     // console.log(e.currentTarget.value);
     searchParams.set('page', e.currentTarget.value);
     history.push(history.location.pathname + '?' + searchParams.toString());
-
-    setPage(e.currentTarget.value);
   };
 
   return (
@@ -50,11 +41,22 @@ const Home = () => {
       {isLoading && <Spinner />}
       {!isLoading && items && (
         <React.Fragment>
-          <Items items={items} />
-          <Pagination
-            pagination={pagination}
-            paginationHandler={paginationHandler}
-          />
+          {items.length === 0 ? (
+            <Col>
+              <Alert color="secondary text-center">
+                <strong>No Items</strong>
+              </Alert>
+            </Col>
+          ) : (
+            <React.Fragment>
+              <Items items={items} />
+              <hr />
+              <Pagination
+                pagination={pagination}
+                paginationHandler={paginationHandler}
+              />
+            </React.Fragment>
+          )}
         </React.Fragment>
       )}
       Home Component Render Count: {renderCount}
