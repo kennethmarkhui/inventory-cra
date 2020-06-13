@@ -74,7 +74,7 @@ const Edit = (props) => {
       setValue('_id', item._id);
       setValue('refId', item.refId);
       setValue('prevRefId', item.refId);
-      setPreview('http://localhost:5000/' + item.image);
+      setPreview(process.env.REACT_APP_IMAGE_URL + item.image);
       setValue('prevImage', item.image);
       setValue('category', item.category);
       setValue('name', item.name);
@@ -127,7 +127,7 @@ const Edit = (props) => {
 
   const undoImageHandler = () => {
     setValue({ image: null });
-    setPreview('http://localhost:5000/' + item.image);
+    setPreview(process.env.REACT_APP_IMAGE_URL + item.image);
   };
 
   return (

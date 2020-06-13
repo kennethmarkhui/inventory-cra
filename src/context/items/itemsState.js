@@ -33,7 +33,9 @@ const ItemsState = (props) => {
       setIsLoading();
       // 'http://jsonplaceholder.typicode.com/photos?_limit=100'
       // 'https://my.api.mockaroo.com/api/items?key=7d747620'
-      const res = await axios.get(`http://localhost:5000/api/items/?${query}`);
+      const res = await axios.get(
+        process.env.REACT_APP_API_URL + `/api/items/?${query}`
+      );
 
       dispatch({ type: FETCH_ITEMS, payload: res.data });
     } catch (error) {
@@ -50,7 +52,9 @@ const ItemsState = (props) => {
   const fetchItem = async (id) => {
     try {
       setIsLoading();
-      const res = await axios.get(`http://localhost:5000/api/items/${id}`);
+      const res = await axios.get(
+        process.env.REACT_APP_API_URL + `/api/items/${id}`
+      );
       dispatch({ type: FETCH_ITEM, payload: res.data });
     } catch (error) {
       // console.log(error);
@@ -70,7 +74,7 @@ const ItemsState = (props) => {
     try {
       setIsLoading();
       const res = await axios.post(
-        'http://localhost:5000/api/items',
+        process.env.REACT_APP_API_URL + '/api/items',
         item,
         config
       );
@@ -93,7 +97,7 @@ const ItemsState = (props) => {
     try {
       setIsLoading();
       const res = await axios.patch(
-        `http://localhost:5000/api/items/${item.get('_id')}`,
+        process.env.REACT_APP_API_URL + `/api/items/${item.get('_id')}`,
         item,
         config
       );
@@ -107,7 +111,7 @@ const ItemsState = (props) => {
   //   DELETE_ITEM
   const deleteItem = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/items/${id}`);
+      await axios.delete(process.env.REACT_APP_API_URL + `/api/items/${id}`);
       dispatch({ type: DELETE_ITEM, payload: id });
     } catch (error) {
       setError(error.response.msg);
