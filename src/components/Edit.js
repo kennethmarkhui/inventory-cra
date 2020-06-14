@@ -34,7 +34,15 @@ const Edit = (props) => {
 
   const itemId = useParams().id;
 
-  const { register, control, errors, watch, setValue, handleSubmit } = useForm({
+  const {
+    register,
+    control,
+    errors,
+    clearError,
+    watch,
+    setValue,
+    handleSubmit,
+  } = useForm({
     defaultValues: {
       _id: '',
       refId: '',
@@ -120,6 +128,9 @@ const Edit = (props) => {
 
   const previewImageHandler = (e) => {
     let file = e.target.files[0];
+    if (!!!file) {
+      setPreview(process.env.REACT_APP_IMAGE_URL + item.image);
+    }
     if (e.target.files && e.target.files.length === 1) {
       setPreview(URL.createObjectURL(file));
     }
@@ -128,6 +139,7 @@ const Edit = (props) => {
   const undoImageHandler = () => {
     setValue({ image: null });
     setPreview(process.env.REACT_APP_IMAGE_URL + item.image);
+    clearError('image');
   };
 
   return (
@@ -162,6 +174,14 @@ const Edit = (props) => {
                   <div className="d-flex justify-content-center align-items-center flex-column">
                     <Label htmlFor="image">
                       <Card
+                        outline={
+                          errors.image && errors.image.type === 'validate'
+                        }
+                        color={
+                          errors.image &&
+                          errors.image.type === 'validate' &&
+                          'danger'
+                        }
                         className="mb-3 justify-content-center align-items-center "
                         style={{ width: '13rem', height: '13rem' }}
                       >
@@ -187,9 +207,24 @@ const Edit = (props) => {
                       name="image"
                       style={{ display: 'none' }}
                       accept=".jpg,.png,.jpeg"
-                      innerRef={register}
+                      innerRef={register({
+                        validate: (files) => {
+                          if (files.length !== 0) {
+                            return (
+                              files[0].size < 2097152 ||
+                              'File Size must be Under 2MB'
+                            );
+                          }
+                        },
+                      })}
+                      invalid={!!errors.image}
                       onChange={previewImageHandler}
                     />
+                    {errors.image?.type === 'validate' && (
+                      <FormFeedback className="text-center">
+                        {errors.image.message}
+                      </FormFeedback>
+                    )}
                     {item && (
                       <Button
                         onClick={undoImageHandler}

@@ -8,34 +8,36 @@ import {
 const Pagination = ({ pagination, paginationHandler }) => {
   return (
     <ReactstrapPagination listClassName="justify-content-center">
-      <PaginationItem disabled={pagination.currentPage === 1}>
+      <PaginationItem disabled={pagination?.currentPage === 1}>
         <PaginationLink
           first
-          value={pagination.firstPage}
+          value={pagination?.firstPage}
           onClick={paginationHandler}
         />
       </PaginationItem>
-      <PaginationItem disabled={!pagination.hasPreviousPage}>
+      <PaginationItem disabled={!pagination?.hasPreviousPage}>
         <PaginationLink
           previous
-          value={pagination.previousPage}
+          value={pagination?.previousPage}
           onClick={paginationHandler}
         />
       </PaginationItem>
       <PaginationItem active>
-        <PaginationLink disabled>{pagination.currentPage}</PaginationLink>
+        <PaginationLink disabled>{pagination?.currentPage}</PaginationLink>
       </PaginationItem>
-      <PaginationItem disabled={!pagination.hasNextPage}>
+      <PaginationItem disabled={!pagination?.hasNextPage}>
         <PaginationLink
           next
-          value={pagination.nextPage}
+          value={pagination?.nextPage}
           onClick={paginationHandler}
         />
       </PaginationItem>
-      <PaginationItem disabled={pagination.lastPage === pagination.currentPage}>
+      <PaginationItem
+        disabled={pagination?.lastPage === pagination?.currentPage}
+      >
         <PaginationLink
           last
-          value={pagination.lastPage}
+          value={pagination?.lastPage}
           onClick={paginationHandler}
         />
       </PaginationItem>
