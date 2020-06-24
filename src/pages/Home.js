@@ -2,9 +2,10 @@ import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Col, Alert } from 'reactstrap';
 
-import Spinner from './Spinner';
-import Items from './Items';
-import Pagination from './Pagination';
+import Spinner from '../components/Spinner';
+import Items from '../components/Items';
+import Pagination from '../components/Pagination';
+import Filter from '../components/Filter';
 
 import ItemsContext from '../context/items/itemsContext';
 
@@ -30,7 +31,7 @@ const Home = () => {
     // eslint-disable-next-line
   }, []);
 
-  const paginationHandler = (e) => {
+  const changePageHandler = (e) => {
     // console.log(e.currentTarget.value);
     searchParams.set('page', e.currentTarget.value);
     history.push(history.location.pathname + '?' + searchParams.toString());
@@ -49,11 +50,13 @@ const Home = () => {
             </Col>
           ) : (
             <React.Fragment>
+              <Filter />
+              <hr />
               <Items items={items} />
               <hr />
               <Pagination
                 pagination={pagination}
-                paginationHandler={paginationHandler}
+                changePageHandler={changePageHandler}
               />
             </React.Fragment>
           )}

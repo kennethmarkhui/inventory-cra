@@ -24,7 +24,7 @@ import ItemsContext from '../context/items/itemsContext';
 
 let renderCount = 0;
 
-const Edit = (props) => {
+const Edit = () => {
   renderCount++;
 
   const itemsContext = useContext(ItemsContext);

@@ -7,7 +7,7 @@ const Items = ({ items }) => {
   return (
     <Row>
       {items.map((item) => {
-        return <Item dummy={item} key={item._id} />;
+        return <Item item={item} key={item._id} />;
       })}
     </Row>
   );

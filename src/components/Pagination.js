@@ -5,21 +5,21 @@ import {
   PaginationLink,
 } from 'reactstrap';
 
-const Pagination = ({ pagination, paginationHandler }) => {
+const Pagination = ({ pagination, changePageHandler }) => {
   return (
     <ReactstrapPagination listClassName="justify-content-center">
       <PaginationItem disabled={pagination?.currentPage === 1}>
         <PaginationLink
           first
           value={pagination?.firstPage}
-          onClick={paginationHandler}
+          onClick={changePageHandler}
         />
       </PaginationItem>
       <PaginationItem disabled={!pagination?.hasPreviousPage}>
         <PaginationLink
           previous
           value={pagination?.previousPage}
-          onClick={paginationHandler}
+          onClick={changePageHandler}
         />
       </PaginationItem>
       <PaginationItem active>
@@ -29,7 +29,7 @@ const Pagination = ({ pagination, paginationHandler }) => {
         <PaginationLink
           next
           value={pagination?.nextPage}
-          onClick={paginationHandler}
+          onClick={changePageHandler}
         />
       </PaginationItem>
       <PaginationItem
@@ -38,7 +38,7 @@ const Pagination = ({ pagination, paginationHandler }) => {
         <PaginationLink
           last
           value={pagination?.lastPage}
-          onClick={paginationHandler}
+          onClick={changePageHandler}
         />
       </PaginationItem>
     </ReactstrapPagination>

@@ -9,14 +9,15 @@ import {
   faAngleDoubleRight,
   faFileImage,
   faUndo,
+  faFilter,
 } from '@fortawesome/free-solid-svg-icons';
 import { Container } from 'reactstrap';
 
 import Navigation from './components/Navigation';
-import Home from './components/Home';
-import New from './components/New';
-import Edit from './components/Edit';
-import NotFound from './components/NotFound';
+import Home from './pages/Home';
+import New from './pages/New';
+import Edit from './pages/Edit';
+import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
 import ErrorModal from './components/ErrorModal';
 
@@ -32,15 +33,16 @@ library.add(
   faAngleDoubleLeft,
   faAngleDoubleRight,
   faFileImage,
-  faUndo
+  faUndo,
+  faFilter
 );
 
-const App = (props) => {
+const App = () => {
   return (
     <ItemsState>
       <BrowserRouter>
         <ErrorModal />
-        <Navigation />
+        <Navigation title="Inventory" />
         <Container>
           <Switch>
             <Route path="/" exact component={Home} />

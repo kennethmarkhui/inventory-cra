@@ -3,13 +3,13 @@ import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Navbar, Nav, NavItem } from 'reactstrap';
 
-const Navigation = (props) => {
+const Navigation = ({ title = 'PLACEHOLDER' }) => {
   return (
     <header className="mb-5 sticky-top">
       <Navbar color="dark" dark>
         <Container>
           <NavLink to="/" className="navbar-brand">
-            Inventory
+            {title}
           </NavLink>
           <Nav navbar>
             <NavItem>

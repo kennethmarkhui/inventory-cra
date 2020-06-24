@@ -8,7 +8,7 @@ import './Item.css';
 
 import ItemsContext from '../context/items/itemsContext';
 
-const Item = (props) => {
+const Item = ({ item }) => {
   const itemsContext = useContext(ItemsContext);
   const { deleteItem } = itemsContext;
 
@@ -17,8 +17,7 @@ const Item = (props) => {
   const toggleImageModal = () => setShowImageModal(!showImageModal);
 
   const onDelete = () => {
-    // console.log(props.dummy);
-    deleteItem(props.dummy._id);
+    deleteItem(item._id);
   };
 
   return (
@@ -26,8 +25,8 @@ const Item = (props) => {
       <ImageModal
         toggle={toggleImageModal}
         show={showImageModal}
-        image={process.env.REACT_APP_IMAGE_URL + props.dummy.image}
-        // image={props.dummy.image}
+        image={process.env.REACT_APP_IMAGE_URL + item.image}
+        alt={item.name}
       />
       <Col lg="6" className="mb-3">
         <Card>
@@ -37,9 +36,8 @@ const Item = (props) => {
                 <div className="img-container embed-responsive">
                   <img
                     className="embed-responsive-item img-fit"
-                    src={process.env.REACT_APP_IMAGE_URL + props.dummy.image}
-                    // src={props.dummy.image}
-                    alt={props.dummy.name}
+                    src={process.env.REACT_APP_IMAGE_URL + item.image}
+                    alt={item.name}
                     onClick={toggleImageModal}
                   />
                 </div>
@@ -48,14 +46,11 @@ const Item = (props) => {
                 <NavLink to="/" className="float-right" onClick={onDelete}>
                   <FontAwesomeIcon icon="times" color="black" />
                 </NavLink>
-                <NavLink
-                  to={`/edit/${props.dummy._id}`}
-                  className="float-right mr-3"
-                >
+                <NavLink to={`/edit/${item._id}`} className="float-right mr-3">
                   <FontAwesomeIcon icon="pen" color="black" />
                 </NavLink>
                 <h5 className="text-dark d-block mt-2 text-truncate">
-                  <span title={props.dummy.name}>{props.dummy.name}</span>
+                  <span title={item.name}>{item.name}</span>
                 </h5>
                 <hr className="m-1" />
                 <Row
@@ -63,25 +58,22 @@ const Item = (props) => {
                   style={{ fontSize: '.9rem' }}
                 >
                   <dt className="col-sm-4">Storage</dt>
-                  <dd className="col-sm-8 mb-0">{props.dummy.storage}</dd>
+                  <dd className="col-sm-8 mb-0">{item.storage}</dd>
                   <dt className="col-sm-4">Category</dt>
-                  <dd className="col-sm-8 mb-0">{props.dummy.category}</dd>
+                  <dd className="col-sm-8 mb-0">{item.category}</dd>
                   <dt className="col-sm-4">Location</dt>
                   <dd className="col-sm-8 mb-0">
-                    {props.dummy.location.country}
-                    {props.dummy.location.area &&
-                      ', ' + props.dummy.location.area}
+                    {item.location.country}
+                    {item.location.area && ', ' + item.location.area}
                   </dd>
                   <dt className="col-sm-4">Period</dt>
-                  <dd className="col-sm-8 mb-0">
-                    {props.dummy.period || 'Unknown'}
-                  </dd>
+                  <dd className="col-sm-8 mb-0">{item.period || 'Unknown'}</dd>
                 </Row>
                 <hr className="m-1" />
-                {props.dummy.sizes && props.dummy.sizes.length !== 0 && (
+                {item.sizes && item.sizes.length !== 0 && (
                   <Row className="text-center">
-                    {props.dummy.sizes.map((size, index) => (
-                      <Col xs={12 / props.dummy.sizes.length} key={index}>
+                    {item.sizes.map((size, index) => (
+                      <Col xs={12 / item.sizes.length} key={index}>
                         <Row>
                           <Col>
                             {size.len || '-'}x{size.wid || '-'}
@@ -95,7 +87,7 @@ const Item = (props) => {
             </Row>
           </CardBody>
           <CardFooter className="w-100 text-muted text-center p-1">
-            {props.dummy.refId}
+            {item.refId}
           </CardFooter>
         </Card>
       </Col>
